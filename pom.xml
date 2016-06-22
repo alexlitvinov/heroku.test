@@ -5,7 +5,7 @@
 
     <groupId>com.demo</groupId>
     <artifactId>heroku-test</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1</version>
     <packaging>jar</packaging>
 
     <name>heroku-test</name>
@@ -41,12 +41,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
-        <dependency>
-    <groupId>org.mybatis.spring.boot</groupId>
-    <artifactId>mybatis-spring-boot-starter</artifactId>
-    <version>1.1.1</version>
-</dependency>
+                
     </dependencies>
 	
     <build>
