@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar build/libs/heroku-test-1.jar
+web: java -Dserver.port=$PORT -jar target/heroku-test-1.jar
