@@ -100,8 +100,9 @@ public class TestController {
         JsonNode n=om.readTree(requrestBody);
         
         ArrayNode a=(ArrayNode) n.get("entry");
+        ArrayNode messaging=(ArrayNode)a.get(0).get("messaging");
         
-        String recepuient=a.get(0).get("id").asText();
+        String recepuient=messaging.get(0).get("sender").get("id").asText();
         String message=this.getMessage(recepuient, "HELLO !!!");
         
         
