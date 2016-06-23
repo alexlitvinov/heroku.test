@@ -43,6 +43,8 @@ public class TestController {
          HttpPost p=null;        
         try{            
             System.out.println("try to send to "+url);
+            System.out.println("request body "+messageStr);
+             
             URIBuilder b = new URIBuilder(url);
             
             p= new HttpPost(b.build());              
