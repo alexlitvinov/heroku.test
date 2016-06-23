@@ -5,12 +5,16 @@
  */
 package com.demo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,54 +27,83 @@ public class TestController {
 
     private final String MY_TOKEN = "430321c0901d0ee6a0eb3541a9b5d3c6";
 
+    private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
+
+    private ObjectMapper om=new ObjectMapper();
+    
+    private String messageTemplate="{\"recipient\":{\"id\": \"@rid\"}, \"message\": {\"text\": \"@text\"}}";
+    
+    public TestController()throws Exception{
+        
+    }
+    
+    private void doPost(String url, String messageStr){
+         HttpPost p=null;        
+        try{            
+            URIBuilder b = new URIBuilder(url);
+            
+            p= new HttpPost(b.build());              
+            p.setHeader("Content-type", "application/json");
+            p.setHeader("Accept", "application/json");
+            p.setEntity(new StringEntity(messageStr));            
+            HttpResponse response = httpImpl.getClient().execute(p);            
+            String responseStr=EntityUtils.toString(response.getEntity());
+            
+            System.out.println("RESPONSE STRING "+responseStr);
+            
+        }catch (Exception ex1){
+            ex1.printStackTrace();
+        }finally{
+            try{
+                if (p!=null) p.releaseConnection();
+            }catch(Exception ex2){
+            }
+        }
+    }
+    
+    private String getMessage(String recepient, String text){
+        return this.messageTemplate.replace("@rid", recepient).replace("@text", text);
+    }
+    
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World1") String name, Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
-
+    
+    /**
+     * 
+     * @param requrestBody
+     * @param req
+     * @param res
+     * @return
+     * @throws Exception 
+     */
     @RequestMapping("/webhook")
     @ResponseBody
     public String greeting(@RequestBody String requrestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        
         System.out.println("requestBody: "+requrestBody);
-        if (req.getParameter("hub.verify_token").equals(MY_TOKEN)) {
+        
+        //авторизация
+        if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(MY_TOKEN)) {
             return req.getParameter("hub.challenge");
-        } else {
+        } else if (req.getParameter("hub.verify_token")!=null) {
             return "Error, wrong validation token";
         }        
+        //если что обрабатываю сообщение                
+        JsonNode n=om.readTree(requrestBody);
+        
+        ArrayNode a=(ArrayNode) n.get("entry");
+        
+        String recepuient=a.get(0).get("id").asText();
+        String message=this.getMessage(recepuient, "HELLO !!!");
+        
+        
+        this.doPost("https://graph.facebook.com/v2.6/me/messages?access_token="+this.MY_TOKEN, message);
+        
+        return "ok";
     }
 
-    private String getBody(HttpServletRequest request) throws IOException {
-
-        String body = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-
-        try {
-            InputStream inputStream = request.getInputStream();
-            if (inputStream != null) {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            } else {
-                stringBuilder.append("");
-            }
-        } catch (IOException ex) {
-            throw ex;
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    throw ex;
-                }
-            }
-        }
-
-        body = stringBuilder.toString();
-        return body;
-    }
+    
 }
