@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +31,8 @@ public class TestController {
 
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(HttpServletRequest req, HttpServletResponse res) throws Exception {
-        System.out.println("Request is "+this.getBody(req));
+    public String greeting(@RequestBody String requrestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        System.out.println("requestBody: "+requrestBody);
         if (req.getParameter("hub.verify_token").equals(MY_TOKEN)) {
             return req.getParameter("hub.challenge");
         } else {
