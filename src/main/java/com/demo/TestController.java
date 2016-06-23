@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController {
 
     private final String MY_TOKEN = "430321c0901d0ee6a0eb3541a9b5d3c6";
-
+ 
+    private final String PAGE_TOKEN="EAAY4vHU2pIoBAMZAV8tkcA3CXFisCohByMZCgOwIpTdCuKLs4N1SPt2mbRDDs16c3jQvQFZBsNDj1O6Kto4qaYhOltXIzZBjBifo0K9T7o29zZB8BITDO8AxMZCmwEqT1NrFCejIJBJdChWMSrUyGemkZCZARwWnmiOcbNUJSAsOZAwZDZD";
+    
     private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
 
     private ObjectMapper om=new ObjectMapper();
@@ -86,7 +88,7 @@ public class TestController {
         System.out.println("requestBody: "+requrestBody);
         
         //авторизация
-        if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(MY_TOKEN)) {
+        if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
             return req.getParameter("hub.challenge");
         } else if (req.getParameter("hub.verify_token")!=null) {
             return "Error, wrong validation token";
