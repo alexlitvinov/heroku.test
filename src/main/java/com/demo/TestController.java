@@ -142,18 +142,18 @@ public class TestController {
         return "ok";
     }
     
-  /*
-public static void main(String a[])throws Exception{
-  Message m=Message.Generic();
-             Element e=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
-              Button b=new Button(Type.Postback, "Картинку", null, "image");
-           
-             e.addButton(b);
-                Button b1=new Button(Type.Postback, "Картинку", null, "image");
-          
-             e.addButton(b1);
-             m.addElement(e);
-            new ObjectMapper().writeValueAsString(new MessageWrapper("222", m));
 
-}*/
+public static void main(String a[])throws Exception{
+String rrr="  {\"object\":\"page\",\"entry\":[{\"id\":\"1566994436936268\",\"time\":1467062446221,\"messaging\":[{\"sender\":{\"id\":\"928132000631513\"},\"recipient\":{\"id\":\"1566994436936268\"},\"timestamp\":1467062444971,\"message\":{\"mid\":\"mid.1467062444810:4d1c13aab5fcfc3999\",\"seq\":104,\"attachments\":[{\"type\":\"image\",\"payload\":{\"url\":\"https:\\/\\/scontent.xx.fbcdn.net\\/v\\/t34.0-12\\/13535807_115028012260842_856066987_n.jpg?_nc_ad=z-m&oh=100d6ed2d43e6971ccb2dce864a1b9f5&oe=57744646\"}}]}}]}]}";
+ //если что обрабатываю сообщение                
+        ReceivedMessage rm=new ObjectMapper().readValue(rrr, ReceivedMessage.class);
+         String sender=null;
+        
+        for (Entry e: rm.entry){          
+            sender=e.messaging.get(0).sender.id;
+            break;
+        }
+}
+
+
 }

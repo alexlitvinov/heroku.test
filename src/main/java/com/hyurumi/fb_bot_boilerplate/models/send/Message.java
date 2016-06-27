@@ -1,27 +1,11 @@
 package com.hyurumi.fb_bot_boilerplate.models.send;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-
-import com.hyurumi.fb_bot_boilerplate.models.common.Recipient;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
-import java.io.IOException;
-
-import okhttp3.MediaType;
-
-/**
- * Created by genki.furumi on 4/15/16.
- */
 public class Message {
-   
 
     final private Attachment attachment;
     final private String text;
 
-    public  Message(Attachment attachment, String text) {
+    public Message(Attachment attachment, String text) {
         this.attachment = attachment;
         this.text = text;
     }
@@ -58,5 +42,4 @@ public class Message {
         return text;
     }
 
-   
 }

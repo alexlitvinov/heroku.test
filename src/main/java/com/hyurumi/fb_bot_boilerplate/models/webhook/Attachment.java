@@ -7,12 +7,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Attachment {
     public enum Type {
-        @SerializedName("audio")
-        AUDIO,
-        @SerializedName("image")
-        IMAGE,
-        @SerializedName("video")
-        VIDEO
+       audio,
+       image,
+       video
     }
 
     public Type type;

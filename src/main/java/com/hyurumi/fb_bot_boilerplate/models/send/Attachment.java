@@ -1,21 +1,15 @@
 package com.hyurumi.fb_bot_boilerplate.models.send;
 
-import com.google.gson.annotations.SerializedName;
-
-/**
- * Created by genki.furumi on 4/14/16.
- */
 public class Attachment {
 
     public enum Type {
-        @SerializedName("template")
+
         TEMPLATE,
-        @SerializedName("image")
         IMAGE
     }
 
-     private Type type;
-     private Payload payload;
+    private Type type;
+    private Payload payload;
 
     private Attachment(Type type, Payload payload) {
         this.type = type;
