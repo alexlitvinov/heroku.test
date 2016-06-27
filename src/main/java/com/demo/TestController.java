@@ -6,6 +6,8 @@
 package com.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hyurumi.fb_bot_boilerplate.models.send.Button;
+import com.hyurumi.fb_bot_boilerplate.models.send.Button.Type;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
@@ -105,16 +107,21 @@ public class TestController {
         System.out.println("try send to "+sender);
         if (sender!=null){
             //Message m=Message.Text("hello");
-            Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
+            //Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
+            Message m=Message.Button("image");
+            Button b=new Button(Type.Postback, "image1", null, null);
+            m.addButton(b);
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
         return "ok";
     }
     
-   /*
+  /*
 public static void main(String a[])throws Exception{
-Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
+Message m=Message.Button("image");
+            Button b=new Button(Type.Postback, "image1", null, null);
+            m.addButton(b);
             new ObjectMapper().writeValueAsString(new MessageWrapper("222", m));
 
 }*/

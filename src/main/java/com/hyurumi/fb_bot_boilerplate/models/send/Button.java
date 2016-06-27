@@ -7,18 +7,18 @@ import com.hyurumi.fb_bot_boilerplate.models.common.Action;
  * Created by genki.furumi on 4/15/16.
  */
 public class Button {
-    private enum Type {
+    public static enum Type {
         @SerializedName("postback")
         Postback,
         @SerializedName("web_url")
         WebUrl
     }
-    private final Type type;
-    private final String title;
-    private final Action payload;
-    private final String url;
+    private  Type type;
+    private  String title;
+    private  Action payload;
+    private  String url;
 
-    private Button(Type type, String title, String url, Action action){
+    public Button(Type type, String title, String url, Action action){
         this.type = type;
         this.title = title;
         this.url = url;
@@ -32,4 +32,38 @@ public class Button {
     public static Button Postback(String title, Action action){
         return new Button(Type.Postback, title, null, action);
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Action getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Action payload) {
+        this.payload = payload;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    
 }
