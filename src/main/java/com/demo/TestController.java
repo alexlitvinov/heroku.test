@@ -6,6 +6,9 @@
 package com.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hyurumi.fb_bot_boilerplate.models.send.Message;
+import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
+import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
@@ -30,9 +33,7 @@ public class TestController {
     private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
 
     private ObjectMapper om=new ObjectMapper();
-    
-    private String messageTemplate="{\"recipient\":{\"id\": \"@rid\"}, \"message\": {\"text\": \"@text\"}}";
-    
+   
     public TestController()throws Exception{
         
     }
@@ -64,10 +65,7 @@ public class TestController {
         }
     }
     
-    private String getMessage(String recepient, String text){
-        return this.messageTemplate.replace("@rid", recepient).replace("@text", text);
-    }
-    
+
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World1") String name, Model model) {
         model.addAttribute("name", name);
@@ -76,7 +74,7 @@ public class TestController {
     
     /**
      * 
-     * @param requrestBody
+     * @param requestBody
      * @param req
      * @param res
      * @return
@@ -84,9 +82,9 @@ public class TestController {
      */
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(@RequestBody String requrestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String greeting(@RequestBody String requestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
          
-        System.out.println("requestBody: "+requrestBody);
+        System.out.println("requestBody: "+requestBody);
         
         //авторизация
         if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
@@ -95,17 +93,20 @@ public class TestController {
             return "Error, wrong validation token";
         }        
         //если что обрабатываю сообщение                
-        /*JsonNode n=om.readTree(requrestBody);
+        ReceivedMessage rm=om.readValue(requestBody, ReceivedMessage.class);
         
-        ArrayNode a=(ArrayNode) n.get("entry");
-        ArrayNode messaging=(ArrayNode)a.get(0).get("messaging");
+        String sender=null;
         
-        String recepuient=messaging.get(0).get("sender").get("id").asText();
-        String message=this.getMessage(recepuient, "HELLO !!!");
+        for (Entry e: rm.entry){          
+            sender=e.messaging.get(0).sender.id;
+            break;
+        }
         
+        if (sender!=null){
+            Message m=Message.Text("hello");
+            m.sendTo(sender);
+        }
         
-        this.doPost("https://graph.facebook.com/v2.6/me/messages?access_token="+this.PAGE_TOKEN, message);
-        */
         return "ok";
     }
 
