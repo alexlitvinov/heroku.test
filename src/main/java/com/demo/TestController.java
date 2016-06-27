@@ -7,6 +7,7 @@ package com.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
+import com.hyurumi.fb_bot_boilerplate.models.send.Response;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -101,10 +102,11 @@ public class TestController {
             sender=e.messaging.get(0).sender.id;
             break;
         }
-        
+        System.out.println("try send to "+sender);
         if (sender!=null){
             Message m=Message.Text("hello");
-            m.sendTo(sender);
+            Response r=m.sendTo(sender);
+            System.out.println("response is "+om.writeValueAsString(r));
         }
         
         return "ok";
