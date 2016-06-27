@@ -86,9 +86,9 @@ public class TestController {
      */
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(@RequestBody String requrestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String greeting(/*@RequestBody String requrestBody,*/ HttpServletRequest req, HttpServletResponse res) throws Exception {
          
-        System.out.println("requestBody: "+requrestBody);
+        //System.out.println("requestBody: "+requrestBody);
         
         //авторизация
         if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
@@ -97,7 +97,7 @@ public class TestController {
             return "Error, wrong validation token";
         }        
         //если что обрабатываю сообщение                
-        JsonNode n=om.readTree(requrestBody);
+        /*JsonNode n=om.readTree(requrestBody);
         
         ArrayNode a=(ArrayNode) n.get("entry");
         ArrayNode messaging=(ArrayNode)a.get(0).get("messaging");
@@ -107,7 +107,7 @@ public class TestController {
         
         
         this.doPost("https://graph.facebook.com/v2.6/me/messages?access_token="+this.PAGE_TOKEN, message);
-        
+        */
         return "ok";
     }
 
