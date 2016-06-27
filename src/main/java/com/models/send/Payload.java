@@ -1,15 +1,12 @@
-package com.hyurumi.fb_bot_boilerplate.models.send;
+package com.models.send;
 
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by genki.furumi on 4/14/16.
- */
+
 public class Payload {
-    @SerializedName("template_type")
+
      private String template_type;
      private String text;
      private String url;

@@ -1,4 +1,4 @@
-package com.hyurumi.fb_bot_boilerplate.models.common;
+package com.models.common;
 
 public enum Action {
    image,

@@ -1,4 +1,4 @@
-package com.hyurumi.fb_bot_boilerplate.models.send;
+package com.models.send;
 
 import java.util.ArrayList;
 import java.util.List;

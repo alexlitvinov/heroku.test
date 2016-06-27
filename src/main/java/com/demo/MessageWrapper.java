@@ -5,8 +5,8 @@
  */
 package com.demo;
 
-import com.hyurumi.fb_bot_boilerplate.models.common.Recipient;
-import com.hyurumi.fb_bot_boilerplate.models.send.Message;
+import com.models.common.Recipient;
+import com.models.send.Message;
 
  public  class MessageWrapper {
         private  Recipient recipient;

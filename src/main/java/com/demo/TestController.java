@@ -7,12 +7,12 @@ package com.demo;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hyurumi.fb_bot_boilerplate.models.send.Button;
-import com.hyurumi.fb_bot_boilerplate.models.send.Button.Type;
-import com.hyurumi.fb_bot_boilerplate.models.send.Element;
-import com.hyurumi.fb_bot_boilerplate.models.send.Message;
-import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
-import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
+import com.models.send.Button;
+import com.models.send.Button.Type;
+import com.models.send.Element;
+import com.models.send.Message;
+import com.models.webhook.Entry;
+import com.models.webhook.ReceivedMessage;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -175,11 +175,9 @@ public class TestController {
                m.addElement(e2);
                Element e3=new Element("third",catImage, "third subtitle" );
                Button b3=new Button(Type.Postback, getString("View more"), null, "template");    
-               e2.addButton(b3);
+               e3.addButton(b3);
                m.addElement(e3);
-            }
-
-            
+            } 
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
