@@ -1,5 +1,6 @@
 package com.hyurumi.fb_bot_boilerplate.models.send;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import com.hyurumi.fb_bot_boilerplate.models.common.Recipient;
@@ -61,6 +62,7 @@ public class Message {
     public Response sendTo(String recipientId) throws IOException {
 
         RequestBody body = RequestBody.create(JSON, GSON.toJson(new MessageWrapper(recipientId, this)));
+        System.out.println("try send "+new ObjectMapper().writeValueAsString(body));
         Request request = new Request.Builder()
                 .url(END_POINT + "?access_token=" + PAGE_TOKEN)
                 .header("Content-Type", "application/json; charset=UTF-8")
