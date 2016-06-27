@@ -40,9 +40,8 @@ public class TestController {
     private final HttpClientManagerImpl httpImpl = new HttpClientManagerImpl();
 
     private final String welcome = "Acceptable commands:\n"
-            + "1)text - see simple text message\n"
-            + "2)buttons - see buttons with choise\n"
-            + "3)template - see template";
+            + "1)buttons - see buttons with choise\n"
+            + "2)template - see template";
 
     private final String sorryText = "sorry i understand only text :(";
 
@@ -59,7 +58,7 @@ public class TestController {
 
     {
 
-        commands.put("text", "text");
+
         commands.put("buttons", "buttons");
         commands.put("image", "image");
         commands.put("template", "template");
@@ -154,9 +153,9 @@ public class TestController {
                 m = Message.Text(sorryText);
             } else if (text != null && !commands.containsKey(text)) {
                 m = Message.Text(welcome);
-            } else if (text.equals("image")) {
+            } else if (text.equalsIgnoreCase("image")) {
                 m = Message.Image(catImage);
-            } else if (text.equals("buttons")) {
+            } else if (text.equalsIgnoreCase("buttons")) {
                 m = Message.Button("What message do you want to see");
                 Button b = new Button(Type.Postback, "View image", null, "image");
                 m.addButton(b);
