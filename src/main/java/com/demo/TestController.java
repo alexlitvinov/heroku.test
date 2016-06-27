@@ -91,7 +91,7 @@ public class TestController {
         System.out.println("requestBody: "+requrestBody);
         
         //авторизация
-        if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(MY_TOKEN)) {
+        if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
             return req.getParameter("hub.challenge");
         } else if (req.getParameter("hub.verify_token")!=null) {
             return "Error, wrong validation token";
