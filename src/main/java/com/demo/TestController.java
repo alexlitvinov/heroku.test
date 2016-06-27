@@ -148,7 +148,7 @@ public class TestController {
             text=postback;
         }
         System.out.println("try send to " + sender);
-        if (sender != null) {
+        if (sender != null) { s
             Message m = null;
             if (text == null) {
                 m = Message.Text(sorryText);
