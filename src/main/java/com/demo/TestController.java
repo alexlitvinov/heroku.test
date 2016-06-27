@@ -112,9 +112,11 @@ public class TestController {
         if (sender!=null){
             //Message m=Message.Text("hello");
             //Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
-            Message m=Message.Button("image");
-            Button b=new Button(Type.Postback, "image1", null, "image1");
+            Message m=Message.Button("Какое сообщение хотите получить");
+            Button b=new Button(Type.Postback, "Картинку", null, "image");
             m.addButton(b);
+            Button b1=new Button(Type.Postback, "Текст", null, "text");
+            m.addButton(b1);
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
