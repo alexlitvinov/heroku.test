@@ -112,7 +112,4 @@ public class TestController {
         return "ok";
     }
 
-    public static void main(String args[])throws Exception{
-        System.out.println(new ObjectMapper().readValue("{\"object\":\"page\",\"entry\":[{\"id\":\"1566994436936268\",\"time\":1467056663269,\"messaging\":[{\"sender\":{\"id\":\"928132000631513\"},\"recipient\":{\"id\":\"1566994436936268\"},\"timestamp\":1467056322433,\"message\":{\"mid\":\"mid.1467056322191:791e85e150ef6c5277\",\"seq\":6,\"text\":\"111\"}}]}]}", ReceivedMessage.class));
-    }
 }
