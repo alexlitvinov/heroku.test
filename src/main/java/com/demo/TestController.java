@@ -13,6 +13,7 @@ import com.hyurumi.fb_bot_boilerplate.models.send.Element;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
+import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
@@ -73,7 +74,10 @@ public class TestController {
         }
     }
     
-
+    private String getString(String str)throws Exception{
+        return URLEncoder.encode(str, "utf8");
+    }
+    
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World1") String name, Model model) {
         model.addAttribute("name", name);
@@ -120,19 +124,19 @@ public class TestController {
             m.addButton(b1);*/
             Message m=Message.Generic();
              Element e=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
-              Button b=new Button(Type.Postback, "Картинку", null, "image");
+              Button b=new Button(Type.Postback, getString("Картинку"), null, "image");
            
              e.addButton(b);
-                Button b1=new Button(Type.Postback, "Картинку", null, "image");
+                Button b1=new Button(Type.Postback, getString("Картинку"), null, "image");
           
              e.addButton(b1);
              m.addElement(e);
              
                    Element e1=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
-              Button b2=new Button(Type.Postback, "Картинку", null, "image");
+              Button b2=new Button(Type.Postback, getString("Картинку"), null, "image");
            
              e1.addButton(b2);
-                Button b21=new Button(Type.Postback, "Картинку", null, "image");
+                Button b21=new Button(Type.Postback, getString("Картинку"), null, "image");
           
              e1.addButton(b21);
              m.addElement(e1);
