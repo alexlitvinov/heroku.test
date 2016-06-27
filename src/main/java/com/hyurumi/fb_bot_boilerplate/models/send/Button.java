@@ -15,10 +15,10 @@ public class Button {
     }
     private  Type type;
     private  String title;
-    private  Action payload;
+    private  String payload;
     private  String url;
 
-    public Button(Type type, String title, String url, Action action){
+    public Button(Type type, String title, String url, String action){
         this.type = type;
         this.title = title;
         this.url = url;
@@ -29,7 +29,7 @@ public class Button {
         return new Button(Type.WebUrl, title, url, null);
     }
 
-    public static Button Postback(String title, Action action){
+    public static Button Postback(String title, String action){
         return new Button(Type.Postback, title, null, action);
     }
 
@@ -49,11 +49,11 @@ public class Button {
         this.title = title;
     }
 
-    public Action getPayload() {
+    public String getPayload() {
         return payload;
     }
 
-    public void setPayload(Action payload) {
+    public void setPayload(String payload) {
         this.payload = payload;
     }
 

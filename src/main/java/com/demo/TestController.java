@@ -113,7 +113,7 @@ public class TestController {
             //Message m=Message.Text("hello");
             //Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
             Message m=Message.Button("image");
-            Button b=new Button(Type.Postback, "image1", null, null);
+            Button b=new Button(Type.Postback, "image1", null, "image1");
             m.addButton(b);
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
