@@ -62,7 +62,7 @@ public class Message {
     public Response sendTo(String recipientId) throws IOException {
 
         RequestBody body = RequestBody.create(JSON, GSON.toJson(new MessageWrapper(recipientId, this)));
-        System.out.println("try send "+new ObjectMapper().writeValueAsString(body));
+        System.out.println("try send "+GSON.toJson(new MessageWrapper(recipientId, this)));
         Request request = new Request.Builder()
                 .url(END_POINT + "?access_token=" + PAGE_TOKEN)
                 .header("Content-Type", "application/json; charset=UTF-8")
