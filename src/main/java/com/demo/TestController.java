@@ -140,7 +140,7 @@ public class TestController {
         String postback=null;
         for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
-            text = e.messaging.get(0).message.text;
+            text = e.messaging.get(0).message!=null ? e.messaging.get(0).message.text : null;
             postback=e.messaging.get(0).postback!=null ? e.messaging.get(0).postback.payload.toString(): null;
             break;
         }
