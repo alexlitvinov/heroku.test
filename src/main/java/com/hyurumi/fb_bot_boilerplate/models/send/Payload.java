@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class Payload {
     @SerializedName("template_type")
-     private String templateType;
+     private String typeTemplate;
      private String text;
      private String url;
      private List<Element> elements;
      private List<Button> buttons;
 
     private Payload(String type, String text, String url, List<Element> elements, List<Button> buttons){
-        this.templateType = type;
+        this.typeTemplate = type;
         this.text = text;
         this.url = url;
         this.elements = elements;
@@ -53,14 +53,15 @@ public class Payload {
         }
     }
 
-    public String getTemplateType() {
-        return templateType;
+    public String getTypeTemplate() {
+        return typeTemplate;
     }
 
-    public void setTemplateType(String templateType) {
-        this.templateType = templateType;
+    public void setTypeTemplate(String typeTemplate) {
+        this.typeTemplate = typeTemplate;
     }
 
+   
     public String getText() {
         return text;
     }
