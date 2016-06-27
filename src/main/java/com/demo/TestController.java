@@ -5,6 +5,7 @@
  */
 package com.demo;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyurumi.fb_bot_boilerplate.models.send.Button;
 import com.hyurumi.fb_bot_boilerplate.models.send.Button.Type;
@@ -34,7 +35,10 @@ public class TestController {
     
     private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
 
-    private ObjectMapper om=new ObjectMapper();
+    private ObjectMapper om=null;{
+    om=new ObjectMapper();
+    om.setSerializationInclusion(Include.NON_NULL);
+}
     private String END_POINT = "https://graph.facebook.com/v2.6/me/messages";
    
     public TestController()throws Exception{
