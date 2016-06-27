@@ -42,6 +42,7 @@ public class TestController {
             "2)buttons - see buttons with choise\n"+
             "3)template - see template";
 
+    
     private ObjectMapper om=null;{
     om=new ObjectMapper();
     om.setSerializationInclusion(Include.NON_NULL);
