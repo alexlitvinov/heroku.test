@@ -81,10 +81,10 @@ public class Message {
         return returnValue;
     }
 
-    class MessageWrapper {
+    public static class MessageWrapper {
         private final Recipient recipient;
         private final Message message;
-        MessageWrapper(String recipientId, Message message) {
+        public MessageWrapper(String recipientId, Message message) {
             this.recipient = new Recipient(recipientId);
             this.message = message;
         }

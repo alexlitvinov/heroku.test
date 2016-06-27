@@ -7,11 +7,12 @@ package com.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
-import com.hyurumi.fb_bot_boilerplate.models.send.Response;
+import com.hyurumi.fb_bot_boilerplate.models.send.Message.MessageWrapper;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import okhttp3.OkHttpClient;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
@@ -34,6 +35,7 @@ public class TestController {
     private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
 
     private ObjectMapper om=new ObjectMapper();
+    private String END_POINT = "https://graph.facebook.com/v2.6/me/messages";
    
     public TestController()throws Exception{
         
@@ -105,8 +107,8 @@ public class TestController {
         System.out.println("try send to "+sender);
         if (sender!=null){
             Message m=Message.Text("hello");
-            Response r=m.sendTo(sender);
-            System.out.println("response is "+om.writeValueAsString(r));
+            
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
         return "ok";
