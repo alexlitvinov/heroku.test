@@ -7,12 +7,10 @@ package com.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
-import com.hyurumi.fb_bot_boilerplate.models.send.Message.MessageWrapper;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import okhttp3.OkHttpClient;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
@@ -112,6 +110,12 @@ public class TestController {
         }
         
         return "ok";
+    }
+    
+    public static void main (String args[]) throws Exception{
+    Message m=Message.Text("hello");
+            
+            new ObjectMapper().writeValueAsString(new MessageWrapper("eeee", m));
     }
 
 }

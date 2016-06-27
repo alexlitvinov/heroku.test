@@ -16,15 +16,12 @@ import okhttp3.MediaType;
  * Created by genki.furumi on 4/15/16.
  */
 public class Message {
-    private String END_POINT = "https://graph.facebook.com/v2.6/me/messages";
-        private final String PAGE_TOKEN="EAAEUQLpUz1YBANLyFeWjimqr9IOXxZAdx0fFzaTEQLve8dxZAdZAyOoAsX9f1iaHAPeBdnuBmTJdgBiC1RVCm9vK6MCFYwiq91lQQJZASnH2NT8TNEH6RZCQffLZAK7b6aMBnQxGXICFBAmmZCtQwgSXZBt3UvoXtxMZBM1DeBkTDm2UZAjZBkvZCbQA";
-    
-
+   
 
     final private Attachment attachment;
     final private String text;
 
-    private Message(Attachment attachment, String text) {
+    public  Message(Attachment attachment, String text) {
         this.attachment = attachment;
         this.text = text;
     }
@@ -53,22 +50,13 @@ public class Message {
         return attachment.addButton(button);
     }
 
-    public static class MessageWrapper {
-        private final Recipient recipient;
-        private final Message message;
-
-        public Recipient getRecipient() {
-            return recipient;
-        }
-
-        public Message getMessage() {
-            return message;
-        }
-        
-        
-        public MessageWrapper(String recipientId, Message message) {
-            this.recipient = new Recipient(recipientId);
-            this.message = message;
-        }
+    public Attachment getAttachment() {
+        return attachment;
     }
+
+    public String getText() {
+        return text;
+    }
+
+   
 }
