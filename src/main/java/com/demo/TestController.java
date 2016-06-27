@@ -127,6 +127,15 @@ public class TestController {
           
              e.addButton(b1);
              m.addElement(e);
+             
+                   Element e1=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
+              Button b2=new Button(Type.Postback, "Картинку", null, "image");
+           
+             e1.addButton(b2);
+                Button b21=new Button(Type.Postback, "Картинку", null, "image");
+          
+             e1.addButton(b21);
+             m.addElement(e1);
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
