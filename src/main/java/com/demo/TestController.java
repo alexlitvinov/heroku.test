@@ -36,6 +36,11 @@ public class TestController {
     private final String PAGE_TOKEN="EAAEUQLpUz1YBANLyFeWjimqr9IOXxZAdx0fFzaTEQLve8dxZAdZAyOoAsX9f1iaHAPeBdnuBmTJdgBiC1RVCm9vK6MCFYwiq91lQQJZASnH2NT8TNEH6RZCQffLZAK7b6aMBnQxGXICFBAmmZCtQwgSXZBt3UvoXtxMZBM1DeBkTDm2UZAjZBkvZCbQA";
     
     private final HttpClientManagerImpl httpImpl=new HttpClientManagerImpl();
+    
+    private final String welcome="Acceptable commands:\n"+
+            "1)text - see simple text message\n"+
+            "2)buttons - see buttons with choise\n"+
+            "3)template - see template";
 
     private ObjectMapper om=null;{
     om=new ObjectMapper();
@@ -115,14 +120,14 @@ public class TestController {
         }
         System.out.println("try send to "+sender);
         if (sender!=null){
-            //Message m=Message.Text("hello");
+            Message m=Message.Text(welcome);
             //Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
             /**Message m=Message.Button("Какое сообщение хотите получить");
             Button b=new Button(Type.Postback, "Картинку", null, "image");
             m.addButton(b);
             Button b1=new Button(Type.Postback, "Текст", null, "text");
             m.addButton(b1);*/
-            Message m=Message.Generic();
+            /*Message m=Message.Generic();
              Element e=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
               Button b=new Button(Type.Postback, getString("Картинку"), null, "image");
            
@@ -139,7 +144,7 @@ public class TestController {
                 Button b21=new Button(Type.Postback, getString("Картинку"), null, "image");
           
              e1.addButton(b21);
-             m.addElement(e1);
+             m.addElement(e1);*/
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
