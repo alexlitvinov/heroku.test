@@ -112,10 +112,6 @@ public class TestController {
         return "ok";
     }
     
-    public static void main (String args[]) throws Exception{
-    Message m=Message.Text("hello");
-            
-            new ObjectMapper().writeValueAsString(new MessageWrapper("eeee", m));
-    }
+   
 
 }
