@@ -5,9 +5,7 @@
  */
 package com.demo;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
@@ -86,9 +84,9 @@ public class TestController {
      */
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(/*@RequestBody String requrestBody,*/ HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String greeting(@RequestBody String requrestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
          
-        //System.out.println("requestBody: "+requrestBody);
+        System.out.println("requestBody: "+requrestBody);
         
         //авторизация
         if (req.getParameter("hub.verify_token")!=null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
