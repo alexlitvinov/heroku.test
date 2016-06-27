@@ -112,6 +112,10 @@ public class TestController {
         return "ok";
     }
     
-   
+   /*
+public static void main(String a[])throws Exception{
+Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
+            new ObjectMapper().writeValueAsString(new MessageWrapper("222", m));
 
+}*/
 }

@@ -14,8 +14,8 @@ public class Attachment {
         IMAGE
     }
 
-    final private Type type;
-    final private Payload payload;
+     private Type type;
+     private Payload payload;
 
     private Attachment(Type type, Payload payload) {
         this.type = type;
@@ -37,4 +37,21 @@ public class Attachment {
     public boolean addButton(Button button) {
         return payload.addButton(button);
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Payload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Payload payload) {
+        this.payload = payload;
+    }
+
 }

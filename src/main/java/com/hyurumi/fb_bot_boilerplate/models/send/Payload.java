@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class Payload {
     @SerializedName("template_type")
-    final private String templateType;
-    final private String text;
-    final private String url;
-    final private List<Element> elements;
-    final private List<Button> buttons;
+     private String templateType;
+     private String text;
+     private String url;
+     private List<Element> elements;
+     private List<Button> buttons;
 
     private Payload(String type, String text, String url, List<Element> elements, List<Button> buttons){
         this.templateType = type;
@@ -52,4 +52,46 @@ public class Payload {
             return false;
         }
     }
+
+    public String getTemplateType() {
+        return templateType;
+    }
+
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<Element> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }
+
+    public List<Button> getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(List<Button> buttons) {
+        this.buttons = buttons;
+    }
+    
+    
 }
