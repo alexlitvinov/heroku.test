@@ -104,8 +104,8 @@ public class TestController {
         }
         System.out.println("try send to "+sender);
         if (sender!=null){
-            Message m=Message.Text("hello");
-            
+            //Message m=Message.Text("hello");
+            Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
