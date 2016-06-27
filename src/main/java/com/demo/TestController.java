@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyurumi.fb_bot_boilerplate.models.send.Button;
 import com.hyurumi.fb_bot_boilerplate.models.send.Button.Type;
+import com.hyurumi.fb_bot_boilerplate.models.send.Element;
 import com.hyurumi.fb_bot_boilerplate.models.send.Message;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.Entry;
 import com.hyurumi.fb_bot_boilerplate.models.webhook.ReceivedMessage;
@@ -112,11 +113,20 @@ public class TestController {
         if (sender!=null){
             //Message m=Message.Text("hello");
             //Message m=Message.Image("http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg");
-            Message m=Message.Button("Какое сообщение хотите получить");
+            /**Message m=Message.Button("Какое сообщение хотите получить");
             Button b=new Button(Type.Postback, "Картинку", null, "image");
             m.addButton(b);
             Button b1=new Button(Type.Postback, "Текст", null, "text");
-            m.addButton(b1);
+            m.addButton(b1);*/
+            Message m=Message.Generic();
+             Element e=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
+              Button b=new Button(Type.Postback, "Картинку", null, "image");
+           
+             e.addButton(b);
+                Button b1=new Button(Type.Postback, "Картинку", null, "image");
+          
+             e.addButton(b1);
+             m.addElement(e);
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
         }
         
@@ -125,9 +135,15 @@ public class TestController {
     
   /*
 public static void main(String a[])throws Exception{
-Message m=Message.Button("image");
-            Button b=new Button(Type.Postback, "image1", null, null);
-            m.addButton(b);
+  Message m=Message.Generic();
+             Element e=new Element("first","http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg", "first subtitle" );
+              Button b=new Button(Type.Postback, "Картинку", null, "image");
+           
+             e.addButton(b);
+                Button b1=new Button(Type.Postback, "Картинку", null, "image");
+          
+             e.addButton(b1);
+             m.addElement(e);
             new ObjectMapper().writeValueAsString(new MessageWrapper("222", m));
 
 }*/
