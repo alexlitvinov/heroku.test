@@ -114,15 +114,15 @@ public class TestController {
     }
 
     private String[] getUserInfo(String id) {
-        String url = "https://graph.facebook.com/v2.6/%%id?fields=address,first_name,last_name,profile_pic,locale,timezone,gender&access_token=%token%".replace("%id%", id).replace("%token%", this.PAGE_TOKEN);
+        String url = "https://graph.facebook.com/v2.6/%id%?fields=address,first_name,last_name,profile_pic,locale,timezone,gender&access_token=%token%".replace("%id%", id).replace("%token%", this.PAGE_TOKEN);
         HttpGet p = null;
         String resp[] = new String[3];
 
         try {
             System.out.println("url get info "+url);
-            URIBuilder b = new URIBuilder(url);
+            
 
-            p = new HttpGet(b.build());
+            p = new HttpGet(url);
             p.setHeader("Content-type", "application/json");
             p.setHeader("Accept", "application/json");
 
