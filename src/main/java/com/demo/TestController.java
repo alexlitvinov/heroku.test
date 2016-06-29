@@ -114,7 +114,7 @@ public class TestController {
     }
 
     private String[] getUserInfo(String id) {
-        String url = "https://graph.facebook.com/v2.6/%id%?fields=address,first_name,last_name,profile_pic,locale,timezone,gender&access_token=%token%".replace("%id%", id).replace("%token%", this.PAGE_TOKEN);
+        String url = "https://graph.facebook.com/v2.6/%id%?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=%token%".replace("%id%", id).replace("%token%", this.PAGE_TOKEN);
         HttpGet p = null;
         String resp[] = new String[3];
 
@@ -129,7 +129,7 @@ public class TestController {
             HttpResponse response = httpImpl.getClient().execute(p);
 
             String responseStr = EntityUtils.toString(response.getEntity());
-            System.out.println("url get info resp "+resp);
+            System.out.println("url get info resp "+responseStr);
             JsonNode d = om.readTree(responseStr);
 
             resp[0] = d.get("first_name").asText();
@@ -200,8 +200,9 @@ public class TestController {
             Message m = null;
             
             String[] textArr=text.split("\\s+");
-            
-            if (!users2.containsKey(textArr[0]+" "+textArr[1])){
+            if (textArr.length!=3){
+                m = Message.Text("input first_name last_name sum");
+            }else if (!users2.containsKey(textArr[0]+" "+textArr[1])){
                 m = Message.Text("user "+textArr[0]+" "+textArr[1]+" not found");
             }else {
                 String id=users2.get(textArr[0]+" "+textArr[1]);
