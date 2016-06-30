@@ -244,6 +244,9 @@ public class TestController {
                 m.addElement(e3);
             }*/
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
+            m = Message.Text("input first_name last_name sum");
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(null,"+3(063)792-1134", m)));
+            
         }
 
         return "ok";

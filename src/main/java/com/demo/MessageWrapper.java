@@ -29,8 +29,14 @@ import com.models.send.Message;
         }
         
         public MessageWrapper(){}
+        
         public MessageWrapper(String recipientId, Message message) {
             this.recipient = new Recipient(recipientId);
+            this.message = message;
+        }
+        
+        public MessageWrapper(String recipientId, String phone, Message message) {
+            this.recipient = new Recipient(recipientId, phone);
             this.message = message;
         }
     }
