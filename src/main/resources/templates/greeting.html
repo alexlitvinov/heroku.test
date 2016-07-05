@@ -35,11 +35,9 @@ function t(){
     console.log(response);
     FB.api('/me/accounts', {}, function(response1) {
         console.log(response1);         
-        FB.ui({
-            method: 'send',
-            link: 'https://m.me/chatbotuser',
-            redirect_uri: 'https://fbookbot.herokuapp.com/'
-        }); 
+        FB.api('/search', {q: "Морозова Надежда", type: "user"}, function(response2) {
+            console.log(response2);             
+        });
     });
   
 }, {
