@@ -37,12 +37,11 @@ function t(){
         console.log(response1);         
         FB.api('/search', {q: "Литвинов Александр", type: "user"}, function(response2) {
             console.log(response2);             
-            FB.ui({
-                method: 'send',
-                link: 'https://m.me/chatbotuser',
-                redirect_uri: 'https://fbookbot.herokuapp.com/',
-                to:[response2.data[0].id]
-            }); 
+            for (var i=0; i<response2.data.length; i++){
+                FB.api('/'+response2.data.id+'/picture', {}, function(response3) {
+                    console.log(response3);
+                });
+            }
         });
         
     });
