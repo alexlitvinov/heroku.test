@@ -29,6 +29,13 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
+function rec(i, l, response2){
+    if (i!==l-1)
+    FB.api('/'+response2.data[i].id+'/picture', {}, function(response3) {
+        rec(i+1, l, response2);
+    });
+    else return;
+}    
 function t(){
     
     FB.login(function(response) {
@@ -37,11 +44,9 @@ function t(){
         console.log(response1);         
         FB.api('/search', {q: "Литвинов Александр", type: "user"}, function(response2) {
             console.log(response2);             
-            for (var i=0; i<response2.data.length; i++){
-                FB.api('/'+response2.data.id+'/picture', {}, function(response3) {
-                    console.log(response3);
-                });
-            }
+            var i=0;
+            
+             rec(i, response2.data, response2);
         });
         
     });
