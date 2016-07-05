@@ -32,6 +32,7 @@
 function rec(i, l, response2){
     if (i!==l-1)
     FB.api('/'+response2.data[i].id+'/picture', {}, function(response3) {
+        console.log(response3);
         rec(i+1, l, response2);
     });
     else return;
