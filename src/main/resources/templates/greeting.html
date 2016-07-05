@@ -35,7 +35,7 @@ function t(){
     console.log(response);
     FB.api('/me/accounts', {}, function(response1) {
         console.log(response1);         
-        FB.api('/search', {q: "Морозова Надежда", type: "user"}, function(response2) {
+        FB.api('/search', {q: "Литвинов Александр", type: "user"}, function(response2) {
             console.log(response2);             
             FB.ui({
                 method: 'send',
