@@ -1,10 +1,44 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<html>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+    <h3 align="center">Отправте вашему другу приглашение на использование приложения</h3>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '303743213293398',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "http://localhost:8080/mypayments/resources/js/fb.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+function t(){
+    
+    FB.login(function(response) {
+    console.log(response);
+    FB.api('/me/accounts', {}, function(response1) {
+        console.log(response1);         
+        FB.ui({
+            method: 'send',
+            link: 'https://m.me/chatbotuser ',            
+        }); 
+    });
+  
+}, {
+    scope: 'email,user_friends', 
+    return_scopes: true
+});
+
+}
+
+</script>
+<button onclick="t();">Отправить приглашение</button>
 </body>
 </html>
