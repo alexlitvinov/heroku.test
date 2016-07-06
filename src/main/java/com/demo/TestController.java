@@ -112,7 +112,7 @@ public class TestController {
         }
     }
     
-    private void doGet(String url) {
+    private String doGet(String url) {
         HttpGet p = null;
         try {
             System.out.println("try to send to " + url);                                    
@@ -124,6 +124,7 @@ public class TestController {
             HttpResponse response = httpImpl.getClient().execute(p);
             String responseStr = EntityUtils.toString(response.getEntity());
             System.out.println("RESPONSE STRING " + responseStr);
+            return responseStr;
         } catch (Exception ex1) {
             ex1.printStackTrace();
         } finally {
@@ -134,6 +135,7 @@ public class TestController {
             } catch (Exception ex2) {
             }
         }
+        return null;
     }
 
     /**
@@ -144,9 +146,25 @@ public class TestController {
      * @return 
      */    
     @RequestMapping("/")
-    public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
-        model.addAttribute("token", token);
-        model.addAttribute("cb", red);
+    public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model)  {
+        //проверка зарегистрирован ли пользователь
+        String ret=doGet("https://graph.facebook.com/v2.6/me?access_token="+this.PAGE_TOKEN+"&fields=recipient&account_linking_token="+token);
+        
+        boolean reg=false;
+        try{
+            String id= om.readTree(ret).asText("recipient");
+            if (users.containsKey(id) && users.get(id).fbToken!=null){
+                reg=true;
+            }
+        }catch (Exception e){
+        }
+        if (!reg){
+            model.addAttribute("token", token);
+            model.addAttribute("cb", red);
+            model.addAttribute("reg", "0");
+        } else{
+            model.addAttribute("reg", "1");
+        }
         return "greeting";
     }
     
