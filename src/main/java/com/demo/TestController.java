@@ -49,7 +49,7 @@ public class TestController {
 
     private final String catImage = "http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg";
 
-    private String loginString="'{\n" +
+    private String loginString="{\n" +
     "  \"recipient\":{\n" +
     "    \"id\":\"USER_ID\"\n" +
     "  },\n" +
