@@ -157,6 +157,7 @@ public class TestController {
                 reg=true;
             }
         }catch (Exception e){
+            e.printStackTrace();
         }
         if (!reg){
             model.addAttribute("token", token);
