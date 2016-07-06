@@ -328,7 +328,7 @@ public class TestController {
             
             
                Message m=Message.Generic();
-               Element e=new Element("first","https://fbookbot.herokuapp.com/first.png", "first subtitle <b>strong?</b>" );
+               Element e=new Element("first","https://fbookbot.herokuapp.com/first.png", "first subtitle this text is bold" );
                Button b=new Button(Type.Postback, "Accept", null, "accept1");    
                e.addButton(b);
                m.addElement(e);
