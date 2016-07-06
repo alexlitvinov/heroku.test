@@ -73,7 +73,7 @@ public class TestController {
     "}";
     
     private ObjectMapper om = null;
-
+    private String ttt;
     {
         om = new ObjectMapper();
         om.setSerializationInclusion(Include.NON_NULL);
@@ -134,6 +134,7 @@ public class TestController {
     public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
         System.out.println("auth_token "+token);
         System.out.println("redir uri "+red);
+        ttt=token;
         model.addAttribute("token", token);
         model.addAttribute("cb", red);
         return "greeting";
@@ -218,7 +219,7 @@ public class TestController {
         System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
         if (rm.entry.get(0).messaging.get(0).account_linking!=null && rm.entry.get(0).messaging.get(0).account_linking.status.equals("linked")){
             System.out.println("all ok LINKED");
-            return "ok";        
+            return ttt;        
         }
         String sender = null;
 
