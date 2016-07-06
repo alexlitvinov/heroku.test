@@ -8,13 +8,10 @@ package com.demo;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.models.send.Button;
-import com.models.send.Button.Type;
-import com.models.send.Element;
 import com.models.send.Message;
+import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -40,16 +37,8 @@ public class TestController {
 
     private final String PAGE_TOKEN = "EAAEUQLpUz1YBANLyFeWjimqr9IOXxZAdx0fFzaTEQLve8dxZAdZAyOoAsX9f1iaHAPeBdnuBmTJdgBiC1RVCm9vK6MCFYwiq91lQQJZASnH2NT8TNEH6RZCQffLZAK7b6aMBnQxGXICFBAmmZCtQwgSXZBt3UvoXtxMZBM1DeBkTDm2UZAjZBkvZCbQA";
 
-    private final HttpClientManagerImpl httpImpl = new HttpClientManagerImpl();
-
-    private final String welcome = "Acceptable commands:\n"
-            + "1)buttons - see buttons with choise\n"
-            + "2)template - see template";
-
-    //private final String sorryText = "sorry i understand only text :(";
-
-    //private final String catImage = "http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg";
-
+    private final HttpClientManagerImpl httpImpl = new HttpClientManagerImpl();   
+    
     private String loginString="{\n" +
     "  \"recipient\":{\n" +
     "    \"id\":\"USER_ID\"\n" +
@@ -73,26 +62,22 @@ public class TestController {
     "}";
     
     private ObjectMapper om = null;
-    private String ttt;
+    
     {
         om = new ObjectMapper();
         om.setSerializationInclusion(Include.NON_NULL);
     }
-
-    private Map commands = new HashMap();
-
-    private Map<String, String[]> users = new HashMap();
-    private Map<String, String> users2 = new HashMap();
-
-    {
-
-        commands.put("buttons", "buttons");
-        commands.put("image", "image");
-        commands.put("template", "template");
-
-    }
+    
     private String END_POINT = "https://graph.facebook.com/v2.6/me/messages";
-
+    
+    private Map<String, User> users=new HashMap();
+    
+    private Map<String, String> fbtokens=new HashMap();
+    
+    private Map<String, String> apptokens=new HashMap();
+   
+    private Map<String, String> tokens=new HashMap();
+        
     public TestController() throws Exception {
 
     }
@@ -101,6 +86,7 @@ public class TestController {
         HttpPost p = null;
         try {
             System.out.println("try to send to " + url);
+            
             System.out.println("request body!!! " + messageStr);
 
             URIBuilder b = new URIBuilder(url);
@@ -125,16 +111,40 @@ public class TestController {
             }
         }
     }
+    
+    private void doGet(String url) {
+        HttpGet p = null;
+        try {
+            System.out.println("try to send to " + url);                                    
 
-    private String getString(String str) throws Exception {
-        return str;
+            p = new HttpGet(url);
+            p.setHeader("Content-type", "application/json");
+            p.setHeader("Accept", "application/json");
+            
+            HttpResponse response = httpImpl.getClient().execute(p);
+            String responseStr = EntityUtils.toString(response.getEntity());
+            System.out.println("RESPONSE STRING " + responseStr);
+        } catch (Exception ex1) {
+            ex1.printStackTrace();
+        } finally {
+            try {
+                if (p != null) {
+                    p.releaseConnection();
+                }
+            } catch (Exception ex2) {
+            }
+        }
     }
 
+    /**
+     * этот кусок обрабатывает запрос на подключение аккаунта
+     * @param token
+     * @param red
+     * @param model
+     * @return 
+     */    
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
-        System.out.println("auth_token "+token);
-        System.out.println("redir uri "+red);
-        ttt=token;
         model.addAttribute("token", token);
         model.addAttribute("cb", red);
         return "greeting";
@@ -144,8 +154,28 @@ public class TestController {
     public String authcomplete(String name, String pwd, Model model, String token) {
         try{
         if (name.equals("user") && pwd.equals("password")){
-            model.addAttribute("token", token);
-            model.addAttribute("ac", UUID.randomUUID().toString());        
+            boolean res=false;
+            
+            //регистрация успешна, сохраняю информацию о пользователе
+            String appToken=UUID.randomUUID().toString();
+            
+            tokens.put(token, appToken);
+            
+            //вызвал связку аккаунта
+            doGet("https://www.facebook.com/messenger_platform/account_linking/?account_linking_token="+token+"&authorization_code="+appToken);
+            
+            if (this.fbtokens.containsKey(token)){
+                String userId=this.fbtokens.get(token);
+                if (this.users.containsKey(userId) && this.users.get(userId).appToken!=null && this.users.get(userId).fbToken!=null){
+                    res=true;
+                }
+            }
+            
+            if (res){
+                model.addAttribute("res", "1");                
+            }else {
+                model.addAttribute("res", "0");                
+            }
             return "okauth";
         } else{
             return "errauth";
@@ -193,7 +223,14 @@ public class TestController {
         }
         return resp;
     }
-
+    
+    private boolean isUserRegistred(String id){
+        if (users.containsKey(id)){
+            return users.get(id).fbToken!=null &&  users.get(id).appToken!=null;
+        }
+        return false;
+    }
+    
     /**
      *
      * @param requestBody
@@ -214,16 +251,46 @@ public class TestController {
         } else if (req.getParameter("hub.verify_token") != null) {
             return "Error, wrong validation token";
         }
+        
         //если что обрабатываю сообщение                
         ReceivedMessage rm = om.readValue(requestBody, ReceivedMessage.class);
-        System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
-        if (rm.entry.get(0).messaging.get(0).account_linking!=null && rm.entry.get(0).messaging.get(0).account_linking.status.equals("linked")){
-            System.out.println("all ok LINKED");
-            return ttt;        
-        }
+        
         String sender = null;
 
         String text = null;
+        
+        AccountLinking al=null;
+        
+        for (Entry e : rm.entry) {
+            sender = e.messaging.get(0).sender.id;
+            if (e.messaging.get(0).account_linking!=null){
+                al=e.messaging.get(0).account_linking;
+            }
+            //text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
+            break;
+        }
+        //если это аккаунт линкинг
+        if (al!=null){
+            if (al.status.equals("linked")){
+                String appToken=al.authorization_code;
+                String fbToken=tokens.get(appToken);
+                User u=new User(sender, fbToken, appToken);
+                this.users.put(sender, u);
+                this.fbtokens.put(fbToken, sender);
+                this.apptokens.put(appToken, sender);
+                this.tokens.remove(appToken);
+                return "linked";
+            }
+        }
+        //если пользователь не зарегистрированб то шлю ему сообщение чтобы зарегался
+        if (!isUserRegistred(sender)){
+            System.out.println("user "+sender+" is unregistered");
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, this.loginString.replace("USER_ID", sender));
+            return "mustReg";
+        }
+        
+        System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
+        
 
         for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
