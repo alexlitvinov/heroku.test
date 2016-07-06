@@ -337,7 +337,7 @@ public class TestController {
                e2.addButton(b2);
                m.addElement(e2);
                Element e3=new Element("third","https://fbookbot.herokuapp.com/third.png", "third subtitle" );
-               Button b3=new Button(Type.Postback, getString("View more"), null, "template");    
+               Button b3=new Button(Type.Postback, "View more", null, "template");    
                e2.addButton(b3);
                m.addElement(e3);
             
