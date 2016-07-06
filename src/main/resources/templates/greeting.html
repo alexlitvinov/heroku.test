@@ -6,7 +6,7 @@
     </head>
     <body>
         <form name="auth" action="https://fbookbot.herokuapp.com/authcomplete">
-            <input type='hidden' name='token' value='${token}'/>
+            <input type='hidden' name='token' th:value="${token}"/>
             <input type='hidden' name='cb' value='${cb}'/>
             <table style='border:0;'>
                 <tbody>
