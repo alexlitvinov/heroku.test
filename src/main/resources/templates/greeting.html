@@ -4,8 +4,7 @@
         <title>Getting Started: Serving Web Content</title> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
-    <body>
-        <h2 th:text="${reg}"></h2>
+    <body>        
         <div th:if="${not #strings.startsWith(reg,'1')}">
         <form name="auth" action="https://fbookbot.herokuapp.com/authcomplete">
             <input type='hidden' name='token' th:value="${token}"/>
@@ -22,8 +21,7 @@
                     </tr>
                     <tr>
                         <td colspan='2'>
-                            <input type='button' value='ok' onclick='document.auth.submit();'/>
-                            <input type='button' value='cancel' onclick="document.location='https://www.facebook.com/messenger_platform/account_linking?account_linking_token=${token}';"/>
+                            <input type='button' value='Submit' onclick='document.auth.submit();'/>                            
                         </td>                        
                     </tr>                    
                 </tbody>
