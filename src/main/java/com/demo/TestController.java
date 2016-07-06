@@ -152,7 +152,7 @@ public class TestController {
         System.out.println("i gett "+ret);
         boolean reg=false;
         try{
-            String id= om.readTree(ret).asText("recipient");
+            String id= om.readTree(ret).get("recipient").asText();
             System.out.println("a get id "+id);
             System.out.println("user   "+users.get(id));
             if (users.containsKey(id) && users.get(id).fbToken!=null){
