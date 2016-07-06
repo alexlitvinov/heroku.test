@@ -8,6 +8,9 @@ package com.demo;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.models.send.Button;
+import com.models.send.Button.Type;
+import com.models.send.Element;
 import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
@@ -17,6 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.swing.UIManager.getString;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -323,9 +327,21 @@ public class TestController {
         if (sender != null && text!=null) {
             
             
-            Message m = Message.Text("HELLO");
+               Message m=Message.Generic();
+               Element e=new Element("first","https://fbookbot.herokuapp.com/first.png", "first subtitle" );
+               Button b=new Button(Type.Postback, "Accept", null, "accept1");    
+               e.addButton(b);
+               m.addElement(e);
+               Element e2=new Element("second","https://fbookbot.herokuapp.com/second.png", "second subtitle" );
+               Button b2=new Button(Type.Postback, "Accept", null, "accept2");    
+               e2.addButton(b2);
+               m.addElement(e2);
+               Element e3=new Element("third","https://fbookbot.herokuapp.com/third.png", "third subtitle" );
+               Button b3=new Button(Type.Postback, getString("View more"), null, "template");    
+               e2.addButton(b3);
+               m.addElement(e3);
             
-            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+               this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
             m = Message.Text("input first_name last_name sum");            
         }
 
