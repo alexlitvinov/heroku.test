@@ -302,9 +302,9 @@ public class TestController {
         if (sender != null && text!=null) {
             
             
-            Message m = null;
+            Message m = Message.Text("HELLO");
             
-            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, this.loginString.replace("USER_ID", sender));
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
             m = Message.Text("input first_name last_name sum");            
         }
 
@@ -312,11 +312,5 @@ public class TestController {
     }
     
     
-/*
-public static void main(String args[])    {
-    System.out.println(new String ("\u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440"));
-    System.out.println(new String(Charset.forName("UTF-8").encode("вав").array()));
-    System.out.println("eee ee".split("\\s+").length);
-}*/
-    
+
 }
