@@ -140,13 +140,18 @@ public class TestController {
     
     @RequestMapping("/authcomplete")
     public String authcomplete(String name, String pwd, Model model, String token) {
-        if (name.equals("user") && pwd.equals(pwd)){
+        try{
+        if (name.equals("user") && pwd.equals("password")){
             model.addAttribute("token", token);
             model.addAttribute("ac", UUID.randomUUID().toString());        
             return "okauth";
         } else{
             return "errauth";
-        }        
+        }   
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     private String[] getUserInfo(String id) {
