@@ -12,4 +12,5 @@ public class Messaging {
     public Message message;
     public Postback postback;
     public Delivery delivery;
+    public AccountLinking account_linking;
 }

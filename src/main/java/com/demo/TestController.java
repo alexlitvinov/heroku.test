@@ -215,7 +215,11 @@ public class TestController {
         }
         //если что обрабатываю сообщение                
         ReceivedMessage rm = om.readValue(requestBody, ReceivedMessage.class);
-
+        if (rm.entry.get(0).messaging.get(0).account_linking!=null && rm.entry.get(0).messaging.get(0).account_linking.status.equals("linked")){
+            System.out.println("all ok LINKED");
+            return "ok";
+        
+        }
         String sender = null;
 
         String text = null;
