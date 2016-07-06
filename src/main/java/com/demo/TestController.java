@@ -60,7 +60,7 @@ public class TestController {
     "      \"payload\": {\n" +
     "        \"template_type\": \"generic\",\n" +
     "        \"elements\": [{\n" +
-    "          \"title\": \"Welcome to M-Bank\",\n" +
+    "          \"title\": \"Welcome to TEST BOT\",\n" +
     "          \"image_url\": \"http://www.example.com/images/m-bank.png\",\n" +
     "          \"buttons\": [{\n" +
     "            \"type\": \"account_link\",\n" +
