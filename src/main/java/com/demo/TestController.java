@@ -159,7 +159,7 @@ public class TestController {
             //регистрация успешна, сохраняю информацию о пользователе
             String appToken=UUID.randomUUID().toString();
             
-            tokens.put(token, appToken);
+            tokens.put(appToken, token );
             
             //вызвал связку аккаунта
             doGet("https://www.facebook.com/messenger_platform/account_linking/?account_linking_token="+token+"&authorization_code="+appToken);
