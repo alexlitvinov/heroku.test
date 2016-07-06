@@ -17,6 +17,7 @@ import com.models.webhook.ReceivedMessage;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
@@ -45,9 +46,9 @@ public class TestController {
             + "1)buttons - see buttons with choise\n"
             + "2)template - see template";
 
-    private final String sorryText = "sorry i understand only text :(";
+    //private final String sorryText = "sorry i understand only text :(";
 
-    private final String catImage = "http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg";
+    //private final String catImage = "http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg";
 
     private String loginString="{\n" +
     "  \"recipient\":{\n" +
@@ -63,7 +64,7 @@ public class TestController {
     "          \"image_url\": \"http://www.example.com/images/m-bank.png\",\n" +
     "          \"buttons\": [{\n" +
     "            \"type\": \"account_link\",\n" +
-    "            \"url\": \"https://privat24.ua\"\n" +
+    "            \"url\": \"https://fbookbot.herokuapp.com\"\n" +
     "          }]\n" +
     "        }]\n" +
     "      }\n" +
@@ -131,9 +132,21 @@ public class TestController {
 
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
+        System.out.println("auth_token "+token);
         model.addAttribute("token", token);
         model.addAttribute("cb", red);
         return "greeting";
+    }
+    
+    @RequestMapping("/authcomplete")
+    public String authcomplete(String name, String pwd, Model model, String token) {
+        if (name.equals("user") && pwd.equals(pwd)){
+            model.addAttribute("token", token);
+            model.addAttribute("ac", UUID.randomUUID().toString());        
+            return "okauth";
+        } else{
+            return "errauth";
+        }        
     }
 
     private String[] getUserInfo(String id) {

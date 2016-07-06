@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <form name="auth">
+        <form name="auth" action="http://localhost:8080/authcomplete">
             <input type='hidden' name='token' value='${token}'/>
             <input type='hidden' name='cb' value='${cb}'/>
             <table style='border:0;'>
@@ -20,8 +20,8 @@
                     </tr>
                     <tr>
                         <td colspan='2'>
-                            <input type='button' value='ok'/>
-                            <input type='button' value='cancel'/>
+                            <input type='button' value='ok' onclick='document.auth.submit();'/>
+                            <input type='button' value='cancel' onclick="document.location='https://www.facebook.com/messenger_platform/account_linking?account_linking_token=${token}';"/>
                         </td>                        
                     </tr>                    
                 </tbody>
