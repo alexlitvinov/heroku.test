@@ -49,6 +49,28 @@ public class TestController {
 
     private final String catImage = "http://d39kbiy71leyho.cloudfront.net/wp-content/uploads/2016/05/09170020/cats-politics-TN.jpg";
 
+    private String loginString="'{\n" +
+    "  \"recipient\":{\n" +
+    "    \"id\":\"USER_ID\"\n" +
+    "  },\n" +
+    "  \"message\": {\n" +
+    "    \"attachment\": {\n" +
+    "      \"type\": \"template\",\n" +
+    "      \"payload\": {\n" +
+    "        \"template_type\": \"generic\",\n" +
+    "        \"elements\": [{\n" +
+    "          \"title\": \"Welcome to M-Bank\",\n" +
+    "          \"image_url\": \"http://www.example.com/images/m-bank.png\",\n" +
+    "          \"buttons\": [{\n" +
+    "            \"type\": \"account_link\",\n" +
+    "            \"url\": \"https://privat24.ua\"\n" +
+    "          }]\n" +
+    "        }]\n" +
+    "      }\n" +
+    "    }\n" +
+    "  }\n" +
+    "}";
+    
     private ObjectMapper om = null;
 
     {
@@ -108,8 +130,9 @@ public class TestController {
     }
 
     @RequestMapping("/")
-    public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World1") String name, Model model) {
-        model.addAttribute("name", name);
+    public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
+        model.addAttribute("token", token);
+        model.addAttribute("cb", red);
         return "greeting";
     }
 
@@ -178,75 +201,20 @@ public class TestController {
 
         String text = null;
 
-        String postback = null;
         for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
             text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
-            postback = e.messaging.get(0).postback != null ? e.messaging.get(0).postback.payload.toString() : null;
             break;
         }
-        /**if (postback != null && !postback.startsWith("accept")) {
-            text = postback;
-        }*/
+        
         System.out.println("try send to " + sender);
         if (sender != null && text!=null) {
             
-            if (!users.containsKey(sender)){
-                String[] ret=this.getUserInfo(sender);                
-                users.put(sender, ret);
-                users2.put(ret[0]+" "+ret[1], sender);
-            }
             
             Message m = null;
             
-            String[] textArr=text.split("\\s+");
-            if (textArr.length!=3){
-                m = Message.Text("input first_name last_name sum");
-            }else if (!users2.containsKey(textArr[0]+" "+textArr[1])){
-                m = Message.Text("user "+textArr[0]+" "+textArr[1]+" not found");
-            }else {
-                String id=users2.get(textArr[0]+" "+textArr[1]);
-                m = Message.Generic();
-                Element e = new Element("Send", users.get(id)[2], "send "+textArr[2]+"");
-                Button b = new Button(Type.Postback, getString("Send"), null, "send "+textArr[2]+" "+users2.get(textArr[0]+" "+textArr[1]));
-                e.addButton(b);
-                Button b2 = new Button(Type.Postback, getString("Ask phone"), null, "askphone "+users2.get(textArr[0]+" "+textArr[1]));
-                e.addButton(b2);
-                m.addElement(e);                
-            }
-            
-            /*if (text == null) {
-                m = Message.Text(sorryText);
-            } else if (text != null && !commands.containsKey(text)) {
-                m = Message.Text(welcome);
-            } else if (text.equalsIgnoreCase("image")) {
-                m = Message.Image(catImage);
-            } else if (text.equalsIgnoreCase("buttons")) {
-                m = Message.Button("What message do you want to see");
-                Button b = new Button(Type.Postback, "View image", null, "image");
-                m.addButton(b);
-                Button b1 = new Button(Type.Postback, "View Template",
-                        null, "template");
-                m.addButton(b1);
-            } else if (text.equals("template")) {
-                m = Message.Generic();
-                Element e = new Element("first", catImage, "first subtitle");
-                Button b = new Button(Type.Postback, getString("Accept"), null, "accept1");
-                e.addButton(b);
-                m.addElement(e);
-                Element e2 = new Element("second", catImage, "second subtitle");
-                Button b2 = new Button(Type.Postback, getString("Accept"), null, "accept2");
-                e2.addButton(b2);
-                m.addElement(e2);
-                Element e3 = new Element("third", catImage, "third subtitle");
-                Button b3 = new Button(Type.Postback, getString("View more"), null, "template");
-                e3.addButton(b3);
-                m.addElement(e3);
-            }*/
-            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(sender, m)));
-            m = Message.Text("input first_name last_name sum");
-            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, om.writeValueAsString(new MessageWrapper(null,"+3(063)792-1134", m)));
-            
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, this.loginString.replace("USER_ID", sender));
+            m = Message.Text("input first_name last_name sum");            
         }
 
         return "ok";

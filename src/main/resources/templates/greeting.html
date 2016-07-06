@@ -1,65 +1,31 @@
-<html>
-    <head>
-        <style>
-            .test{
-                
-            }
-            .fb_hidden{
-                overflow: visible!important;
-            }
-        </style>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head> 
+        <title>Getting Started: Serving Web Content</title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
-<body>
-    <h3 align="center">Отправте вашему другу приглашение на использование приложения</h3>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '303743213293398',
-      xfbml      : true,
-      version    : 'v2.6'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-<script>
-function rec(i, l, response2){
-    if (i!==l-1)
-    FB.api('/'+response2.data[i].id+'/picture', {}, function(response3) {
-        console.log(response3);
-        rec(i+1, l, response2);
-    });
-    else return;
-}    
-function t(){
-    
-    FB.login(function(response) {
-    console.log(response);
-    FB.api('/me/accounts', {}, function(response1) {
-        console.log(response1);         
-        FB.api('/search', {q: "my friends", type: "user", fields: "first_name,last_name,id"}, function(response2) {
-            console.log(response2);             
-            var i=0;
-            
-             rec(i, response2.data, response2);
-        });
-        
-    });
-  
-}, {
-    scope: 'email,user_friends', 
-    return_scopes: true
-});
-
-}
-
-</script>
-<button onclick="t();">Отправить приглашение</button>
-</body>
+    <body>
+        <form name="auth">
+            <input type='hidden' name='token' value='${token}'/>
+            <input type='hidden' name='cb' value='${cb}'/>
+            <table style='border:0;'>
+                <tbody>
+                    <tr>
+                        <td>name</td>
+                        <td><input type='text' name='name'/></td>
+                    </tr>
+                    <tr>
+                        <td>pwd</td>
+                        <td><input type='text' name='pwd'/></td>
+                    </tr>
+                    <tr>
+                        <td colspan='2'>
+                            <input type='button' value='ok'/>
+                            <input type='button' value='cancel'/>
+                        </td>                        
+                    </tr>                    
+                </tbody>
+            </table>
+        </form>
+    </body>
 </html>
