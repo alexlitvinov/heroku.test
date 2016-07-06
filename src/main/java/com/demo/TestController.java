@@ -133,6 +133,7 @@ public class TestController {
     @RequestMapping("/")
     public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model) {
         System.out.println("auth_token "+token);
+        System.out.println("redir uri "+red);
         model.addAttribute("token", token);
         model.addAttribute("cb", red);
         return "greeting";
