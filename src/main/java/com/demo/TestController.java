@@ -15,25 +15,32 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class TestController {
@@ -87,7 +94,27 @@ public class TestController {
 
     }
 
+   RestTemplate restTemplate = new RestTemplate();
+   {
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+   }
+        
     private void doPost(String url, String messageStr) {
+        
+        System.out.println("try to send to " + url);
+        
+        System.out.println("request body!!! " + messageStr);
+         
+        HttpHeaders headers = new HttpHeaders();
+        
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        
+        HttpEntity<String> entity = new HttpEntity<String>(messageStr, headers);
+        
+        ResponseEntity<String> rese=restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        
+        System.out.println("RESPONSE STRING " + rese.getBody());
+/*
         HttpPost p = null;
         try {
             System.out.println("try to send to " + url);
@@ -118,7 +145,7 @@ public class TestController {
                 }
             } catch (Exception ex2) {
             }
-        }
+        }*/
     }
     
     private String doGet(String url) {

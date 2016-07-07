@@ -12,7 +12,6 @@ import java.util.Arrays;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.AuthSchemes;
 import org.apache.http.client.config.CookieSpecs;
@@ -20,6 +19,11 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Implementation of manager for HttpClients
@@ -52,7 +56,10 @@ public class HttpClientManagerImpl {
     HttpClientBuilder manager = null;
 
     public HttpClientManagerImpl() throws Exception {
+          
+
         HttpClientBuilder mgr = this.getConnectionManager(1000);
+        
         RequestConfig requestConf = this.getRequestConfiguration(5000, 5000);
         
         HttpClient httpclient = mgr.setDefaultRequestConfig(requestConf)
