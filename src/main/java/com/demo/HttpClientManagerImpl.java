@@ -58,8 +58,8 @@ public class HttpClientManagerImpl {
         HttpClient httpclient = mgr.setDefaultRequestConfig(requestConf)
                 .setDefaultRequestConfig(requestConf)                
                 .build();
-        httpclient.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
-        httpclient.getParams().setParameter("http.protocol.content-charset", "UTF-8");
+        //httpclient.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
+        //httpclient.getParams().setParameter("http.protocol.content-charset", "UTF-8");
         
         manager = mgr;
         client = httpclient;

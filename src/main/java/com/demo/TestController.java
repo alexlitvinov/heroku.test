@@ -98,7 +98,7 @@ public class TestController {
 
             p = new HttpPost(b.build());
             p.setHeader("Content-Type", "application/json; charset=UTF-8");
-            
+            p.setHeader("Accept-Charset","utf-8");
 //            p.setHeader("Accept", "application/json");
             
             p.setEntity(new StringEntity(messageStr));
