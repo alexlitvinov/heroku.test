@@ -344,23 +344,31 @@ public class TestController {
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                
-               m = Message.Text(/*URLEncoder.encode(*/"русский текст"/*, "utf8")*/);            
+               m = Message.Text(/*URLEncoder.encode(*/"\u0440\u0443\u0441\u0441\u043a\u0438\u0439"/*, "utf8")*/);            
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
         return "ok";
     }
     
-      private String conv(char a){          
+      private static String conv(char a){          
           System.out.println((int) a);
           String hex=Integer.toHexString((int) a);
           System.out.println(hex);
           if (hex.length()<4){
-              hex+='0';
+              hex='0'+hex;
           }
           hex="\\u"+hex;
           return hex;
       }
       
-
+      private static  String doConv(String s){
+          String ret="";
+          for (char a: s.toCharArray()){
+              ret+=conv(a);
+          }
+          return ret;
+      }
+      
+      
 }
