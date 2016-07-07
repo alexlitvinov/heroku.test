@@ -15,6 +15,7 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -342,7 +343,9 @@ public class TestController {
                m.addElement(e3);
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
-            m = Message.Text("input first_name last_name sum");            
+               
+                m = Message.Text(URLEncoder.encode("русский текст", "utf8"));            
+                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
         return "ok";
