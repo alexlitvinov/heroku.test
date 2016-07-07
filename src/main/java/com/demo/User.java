@@ -13,6 +13,10 @@ public class User {
     public String id;
     public String fbToken;
     public String appToken;
+    public String phone;
+    public String card;
+    public int st=0;
+    
     
     public User(){
     }
@@ -22,5 +26,15 @@ public class User {
         this.fbToken = fbToken;
         this.appToken = appToken;
     }
+
+    public User(String id, String fbToken, String appToken, String phone, String card) {
+        this.id = id;
+        this.fbToken = fbToken;
+        this.appToken = appToken;
+        this.phone = phone;
+        this.card = card;
+    }
+    
+    
     
 }

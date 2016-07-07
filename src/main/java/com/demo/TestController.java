@@ -178,7 +178,7 @@ public class TestController {
         return "greeting";
     }
     
-    @RequestMapping("/authcomplete")
+    /*@RequestMapping("/authcomplete")
     public String authcomplete(String name, String pwd, Model model, String token) {
         try{
         if (name.equals("user") && pwd.equals("password")){
@@ -212,7 +212,7 @@ public class TestController {
             e.printStackTrace();
             throw e;
         }
-    }
+    }*/
 
     private String[] getUserInfo(String id) {
         String url = "https://graph.facebook.com/v2.6/%id%?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=%token%".replace("%id%", id).replace("%token%", this.PAGE_TOKEN);
