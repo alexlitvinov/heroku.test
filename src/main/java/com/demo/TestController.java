@@ -116,38 +116,7 @@ public class TestController {
         ResponseEntity<String> rese=restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         
         System.out.println("RESPONSE STRING " + rese.getBody());
-/*
-        HttpPost p = null;
-        try {
-            System.out.println("try to send to " + url);
-            
-            System.out.println("request body!!! " + messageStr);
 
-            URIBuilder b = new URIBuilder(url);
-
-            p = new HttpPost(b.build());
-            p.setHeader("Content-Type", "application/json; charset=UTF-8");
-            p.setHeader("Accept-Charset","utf-8");
-            p.addHeader("Content-Type", "application/json; charset=UTF-8");
-            p.addHeader("Accept-Charset","utf-8");
-//            p.setHeader("Accept", "application/json");
-            
-            p.setEntity(new StringEntity(messageStr));
-            HttpResponse response = httpImpl.getClient().execute(p);
-            String responseStr = EntityUtils.toString(response.getEntity());
-
-            System.out.println("RESPONSE STRING " + responseStr);
-
-        } catch (Exception ex1) {
-            ex1.printStackTrace();
-        } finally {
-            try {
-                if (p != null) {
-                    p.releaseConnection();
-                }
-            } catch (Exception ex2) {
-            }
-        }*/
     }
     
     private String doGet(String url) {
@@ -290,6 +259,13 @@ public class TestController {
         return false;
     }
     
+    private boolean isUserRegistred2(String id){
+        if (users.containsKey(id)){
+            return users.get(id).phone!=null &&  users.get(id).card!=null;
+        }
+        return false;
+    }
+    
     /**
      *
      * @param requestBody
@@ -320,15 +296,15 @@ public class TestController {
         
         AccountLinking al=null;
         
-        for (Entry e : rm.entry) {
+        /*for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
             if (e.messaging.get(0).account_linking!=null){
                 al=e.messaging.get(0).account_linking;
             }
-            //text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
+            text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
             break;
-        }
-        //если это аккаунт линкинг
+        }*/
+        /**
         if (al!=null){
             if (al.status.equals("linked")){
                 String appToken=al.authorization_code;
@@ -340,23 +316,58 @@ public class TestController {
                 this.tokens.remove(appToken);
                 return "linked";
             }
-        }
-        //если пользователь не зарегистрированб то шлю ему сообщение чтобы зарегался
-        if (!isUserRegistred(sender)){
-            System.out.println("user "+sender+" is unregistered");
-            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN, this.loginString.replace("USER_ID", sender));
-            return "mustReg";
-        }
+        }*/
         
-        System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
-        
-
         for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
             text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
             break;
         }
         
+        //если пользователь не зарегистрированб то шлю ему сообщение чтобы зарегался
+        if (!this.users.containsKey(sender)){
+            Message m=Message.Text("Для работы с ботом вам необходимо авторизоваться");
+            this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+            User usr=new User();
+            this.users.put(sender, usr);
+        }else if (this.users.get(sender).st!=4){
+            User u=this.users.get(sender);
+            //запрашиваем телефон ,помечаем что юзер ждет телефона
+            if (u.phone==null && u.st==0){
+                Message m=Message.Text("Введите ваш телефон");
+                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+                u.st=1;                
+                this.users.put(sender, u);
+            } else if (u.phone==null && u.st==1){
+                if (text==null || text.trim().isEmpty()){
+                    Message m=Message.Text("Телефон не может быть пустым введите телефон еще раз.");
+                    this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+                }else{
+                    u.phone=text;
+                    u.st=2;
+                    this.users.put(sender, u);
+                }
+            } else if (u.card==null && u.st==2){
+                Message m=Message.Text("Введите 4 номер карты");
+                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+                u.st=3;                
+                this.users.put(sender, u);
+            } else if (u.card==null && u.st==3){
+                if (text==null || text.trim().isEmpty()){
+                    Message m=Message.Text("Номер карты не может быть пустым. введите номер карты еще раз.");
+                    this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+                }else{
+                    u.card=text;
+                    u.st=4;
+                    this.users.put(sender, u);
+                }
+            }
+        }
+        
+        
+        System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
+        
+                
         System.out.println("try send to " + sender);
         if (sender != null && text!=null) {
             
