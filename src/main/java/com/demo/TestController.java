@@ -15,13 +15,13 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
-import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static javax.swing.UIManager.getString;
+import static org.apache.coyote.http11.Constants.a;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -222,7 +222,7 @@ public class TestController {
             
 
             p = new HttpGet(url);
-            p.setHeader("Content-type", "application/json");
+            p.setHeader("Content-type", "application/json;charset=UTF-8");
             p.setHeader("Accept", "application/json");
 
             HttpResponse response = httpImpl.getClient().execute(p);
@@ -344,7 +344,7 @@ public class TestController {
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                
-               m = Message.Text(doConv("русский текст"));            
+               m = Message.Text("русский текст");            
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
@@ -362,12 +362,5 @@ public class TestController {
           return hex;
       }
       
-      private String doConv(String str){
-          String a="";
-          for (char x: str.toCharArray()){
-              a+=conv(x);
-          }
-          return a;
-      }
 
 }
