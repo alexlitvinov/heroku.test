@@ -15,17 +15,18 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,7 +97,8 @@ public class TestController {
             URIBuilder b = new URIBuilder(url);
 
             p = new HttpPost(b.build());
-            p.setHeader("Content-type", "application/json; charset=UTF-8");
+            p.setHeader("Content-Type", "application/json; charset=UTF-8");
+            p.setHeader(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
 //            p.setHeader("Accept", "application/json");
             
             p.setEntity(new StringEntity(messageStr));
@@ -344,7 +346,7 @@ public class TestController {
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                
-               m = Message.Text(/*URLEncoder.encode(*/"\u0440\u0443\u0441\u0441\u043a\u0438\u0439"/*, "utf8")*/);            
+               m = Message.Text(/*URLEncoder.encode(*/" русскй текст"/*, "utf8")*/);            
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
