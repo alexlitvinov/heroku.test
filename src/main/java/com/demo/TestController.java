@@ -294,29 +294,7 @@ public class TestController {
 
         String text = null;
         
-        AccountLinking al=null;
-        
-        /*for (Entry e : rm.entry) {
-            sender = e.messaging.get(0).sender.id;
-            if (e.messaging.get(0).account_linking!=null){
-                al=e.messaging.get(0).account_linking;
-            }
-            text = e.messaging.get(0).message != null ? e.messaging.get(0).message.text : null;
-            break;
-        }*/
-        /**
-        if (al!=null){
-            if (al.status.equals("linked")){
-                String appToken=al.authorization_code;
-                String fbToken=tokens.get(appToken);
-                User u=new User(sender, fbToken, appToken);
-                this.users.put(sender, u);
-                this.fbtokens.put(fbToken, sender);
-                this.apptokens.put(appToken, sender);
-                this.tokens.remove(appToken);
-                return "linked";
-            }
-        }*/
+        AccountLinking al=null;       
         
         for (Entry e : rm.entry) {
             sender = e.messaging.get(0).sender.id;
@@ -324,14 +302,18 @@ public class TestController {
             break;
         }
         
+        String [] userInfo=this.getUserInfo(sender);
+        
+        String firstLast=userInfo[0]+" "+userInfo[1];
         //если пользователь не зарегистрированб то шлю ему сообщение чтобы зарегался
         if (!this.users.containsKey(sender)){
-            Message m=Message.Text("Для работы с ботом вам необходимо авторизоваться");
+            Message m=Message.Text(firstLast+", для работы с ботом вам необходимо авторизоваться");
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
             User usr=new User();
             this.users.put(sender, usr);
-            return "ok";
-        }else if (this.users.get(sender).st!=4){
+            //return "ok";
+        }
+        if (this.users.get(sender).st!=4){
             User u=this.users.get(sender);
             //запрашиваем телефон ,помечаем что юзер ждет телефона
             if (u.phone==null && u.st==0){
@@ -367,13 +349,9 @@ public class TestController {
             return "ok";
         }
         
-        
-        System.out.println("ACCLINKING "+rm.entry.get(0).messaging.get(0).account_linking);
-        
-                
+                                
         System.out.println("try send to " + sender);
-        if (sender != null && text!=null) {
-            
+        if (sender != null && text!=null) {            
             
                Message m=Message.Generic();
                Element e=new Element("Первый шаблон","https://fbookbot.herokuapp.com/first.png", "Здесь будет лицевой счет или дата" );
@@ -394,26 +372,5 @@ public class TestController {
         }
 
         return "ok";
-    }
-    
-      private static String conv(char a){          
-          System.out.println((int) a);
-          String hex=Integer.toHexString((int) a);
-          System.out.println(hex);
-          if (hex.length()<4){
-              hex='0'+hex;
-          }
-          hex="\\u"+hex;
-          return hex;
-      }
-      
-      private static  String doConv(String s){
-          String ret="";
-          for (char a: s.toCharArray()){
-              ret+=conv(a);
-          }
-          return ret;
-      }
-      
-      
+    }                
 }
