@@ -330,6 +330,7 @@ public class TestController {
             this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
             User usr=new User();
             this.users.put(sender, usr);
+            return "ok";
         }else if (this.users.get(sender).st!=4){
             User u=this.users.get(sender);
             //запрашиваем телефон ,помечаем что юзер ждет телефона
@@ -351,7 +352,7 @@ public class TestController {
                 Message m=Message.Text("Введите 4 номер карты");
                 this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                 u.st=3;                
-                this.users.put(sender, u);
+                this.users.put(sender, u);                
             } else if (u.card==null && u.st==3){
                 if (text==null || text.trim().isEmpty()){
                     Message m=Message.Text("Номер карты не может быть пустым. введите номер карты еще раз.");
@@ -362,6 +363,7 @@ public class TestController {
                     this.users.put(sender, u);
                 }
             }
+            return "ok";
         }
         
         
