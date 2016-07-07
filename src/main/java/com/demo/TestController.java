@@ -344,6 +344,8 @@ public class TestController {
                     u.card=text;
                     u.st=4;
                     this.users.put(sender, u);
+                    Message m=Message.Text("Регистрация успешно завершена :). Для продолжения работы напишите что-то в чат с ботом.");
+                    this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                 }
             }
             return "ok";
