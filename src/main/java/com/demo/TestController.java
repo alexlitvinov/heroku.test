@@ -97,7 +97,7 @@ public class TestController {
 
             p = new HttpPost(b.build());
             p.setHeader("Content-type", "application/json; charset=UTF-8");
-            p.setHeader("Accept", "application/json");
+//            p.setHeader("Accept", "application/json");
             
             p.setEntity(new StringEntity(messageStr));
             HttpResponse response = httpImpl.getClient().execute(p);
@@ -344,7 +344,7 @@ public class TestController {
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                
-               m = Message.Text(URLEncoder.encode("русский текст", "utf8"));            
+               m = Message.Text(/*URLEncoder.encode(*/"русский текст"/*, "utf8")*/);            
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
         }
 
