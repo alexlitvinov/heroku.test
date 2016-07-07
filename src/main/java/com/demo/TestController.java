@@ -109,6 +109,8 @@ public class TestController {
         
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
         HttpEntity<String> entity = new HttpEntity<String>(messageStr, headers);
         
         ResponseEntity<String> rese=restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
