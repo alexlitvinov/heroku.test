@@ -12,6 +12,7 @@ import java.util.Arrays;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.AuthSchemes;
 import org.apache.http.client.config.CookieSpecs;
@@ -53,9 +54,13 @@ public class HttpClientManagerImpl {
     public HttpClientManagerImpl() throws Exception {
         HttpClientBuilder mgr = this.getConnectionManager(1000);
         RequestConfig requestConf = this.getRequestConfiguration(5000, 5000);
+        
         HttpClient httpclient = mgr.setDefaultRequestConfig(requestConf)
-                .setDefaultRequestConfig(requestConf)
+                .setDefaultRequestConfig(requestConf)                
                 .build();
+        httpclient.getParams().setParameter("http.protocol.version", HttpVersion.HTTP_1_1);
+        httpclient.getParams().setParameter("http.protocol.content-charset", "UTF-8");
+        
         manager = mgr;
         client = httpclient;
     }
