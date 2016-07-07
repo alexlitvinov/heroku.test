@@ -99,6 +99,7 @@ public class TestController {
             p = new HttpPost(b.build());
             p.setHeader("Content-type", "application/json");
             p.setHeader("Accept", "application/json");
+            p.setHeader("charset", "UTF-8");
             p.setEntity(new StringEntity(messageStr));
             HttpResponse response = httpImpl.getClient().execute(p);
             String responseStr = EntityUtils.toString(response.getEntity());
@@ -222,7 +223,7 @@ public class TestController {
             
 
             p = new HttpGet(url);
-            p.setHeader("Content-type", "application/json;charset=UTF-8");
+            p.setHeader("Content-type", "application/json;");
             p.setHeader("Accept", "application/json");
 
             HttpResponse response = httpImpl.getClient().execute(p);
