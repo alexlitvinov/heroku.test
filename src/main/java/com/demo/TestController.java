@@ -97,7 +97,7 @@ public class TestController {
             URIBuilder b = new URIBuilder(url);
 
             p = new HttpPost(b.build());
-            p.setHeader("Content-type", "pplication/json; charset=UTF-8");
+            p.setHeader("Content-type", "application/json; charset=UTF-8");
             p.setHeader("Accept", "application/json");
             
             p.setEntity(new StringEntity(messageStr));
