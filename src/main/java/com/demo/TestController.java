@@ -348,7 +348,8 @@ public class TestController {
                     u.st=2;
                     this.users.put(sender, u);
                 }
-            } else if (u.card==null && u.st==2){
+            } 
+            if (u.card==null && u.st==2){
                 Message m=Message.Text("Введите 4 номер карты");
                 this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                 u.st=3;                
@@ -375,23 +376,21 @@ public class TestController {
             
             
                Message m=Message.Generic();
-               Element e=new Element("first","https://fbookbot.herokuapp.com/first.png", "first subtitle this text is bold" );
-               Button b=new Button(Type.Postback, "Accept", null, "accept1");    
+               Element e=new Element("Первый шаблон","https://fbookbot.herokuapp.com/first.png", "Здесь будет лицевой счет или дата" );
+               Button b=new Button(Type.Postback, "Оплатить", null, "accept1");    
                e.addButton(b);
                m.addElement(e);
-               Element e2=new Element("second","https://fbookbot.herokuapp.com/second.png", "second subtitle" );
-               Button b2=new Button(Type.Postback, "Accept", null, "accept2");    
+               Element e2=new Element("Второй шаблон","https://fbookbot.herokuapp.com/second.png", "Здесь будет лицевой счет или дата" );
+               Button b2=new Button(Type.Postback, "Оплатить", null, "accept2");    
                e2.addButton(b2);
                m.addElement(e2);
-               Element e3=new Element("third","https://fbookbot.herokuapp.com/third.png", "third subtitle" );
-               Button b3=new Button(Type.Postback, "View more", null, "template");    
-               e2.addButton(b3);
+               Element e3=new Element("Третий шаблон","https://fbookbot.herokuapp.com/third.png", "Здесь будет лицевой счет или дата" );
+               Button b3=new Button(Type.Postback, "Оплатить", null, "template");    
+               e3.addButton(b3);
                m.addElement(e3);
             
                this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
-               
-               m = Message.Text(/*URLEncoder.encode(*/" русскй текст"/*, "utf8")*/);            
-               this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
+                        
         }
 
         return "ok";
