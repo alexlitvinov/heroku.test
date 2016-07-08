@@ -7,7 +7,7 @@ public class Button {
         @SerializedName("postback")
         Postback,
         @SerializedName("web_url")
-        WebUrl
+        web_url
     }
     private  Type type;
     private  String title;
@@ -22,7 +22,7 @@ public class Button {
     }
 
     public static Button Url(String title, String url){
-        return new Button(Type.WebUrl, title, url, null);
+        return new Button(Type.web_url, title, url, null);
     }
 
     public static Button Postback(String title, String action){
