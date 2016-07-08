@@ -18,7 +18,7 @@ public class Button {
         this.type = type;
         this.title = title;
         this.url = url;
-        this.payload = action==null ? "" : action;
+        this.payload = type==Type.web_url ? "" : payload;
     }
 
     public static Button Url(String title, String url){
