@@ -150,28 +150,7 @@ public class TestController {
      * @return 
      */    
     @RequestMapping("/")
-    public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model)  {
-        //проверка зарегистрирован ли пользователь
-        String ret=doGet("https://graph.facebook.com/v2.6/me?access_token="+this.PAGE_TOKEN+"&fields=recipient&account_linking_token="+token);
-        System.out.println("i gett "+ret);
-        boolean reg=false;
-        try{
-            String id= om.readTree(ret).get("recipient").asText();
-            System.out.println("a get id "+id);
-            System.out.println("user   "+users.get(id));
-            if (users.containsKey(id) && users.get(id).fbToken!=null){
-                reg=true;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if (!reg){
-            model.addAttribute("token", token);
-            model.addAttribute("cb", red);
-            model.addAttribute("reg", "0");
-        } else{
-            model.addAttribute("reg", "1");
-        }
+    public String greeting(@RequestParam(value = "account_linking_token", required = false) String token, @RequestParam(value = "redirect_uri", required = false) String red, Model model)  {      
         return "greeting";
     }
     
