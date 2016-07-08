@@ -293,7 +293,7 @@ public class TestController {
             User u=this.users.get(sender);
             //запрашиваем телефон ,помечаем что юзер ждет телефона
             if (u.phone==null && u.st==0){
-                Message m=Message.Text("Введите ваш телефон");
+                Message m=Message.Text("*Введите ваш телефон*");
                 this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                 u.st=1;                
                 this.users.put(sender, u);
