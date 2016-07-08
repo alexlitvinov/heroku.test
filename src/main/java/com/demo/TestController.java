@@ -333,15 +333,15 @@ public class TestController {
             
                Message m=Message.Generic();
                Element e=new Element("Первый шаблон","https://fbookbot.herokuapp.com/first.png", "Здесь будет лицевой счет или дата" );
-               Button b=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/?templ=1", null);    
+               Button b=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/?templ=1", null);    
                e.addButton(b);
                m.addElement(e);
                Element e2=new Element("Второй шаблон","https://fbookbot.herokuapp.com/second.png", "Здесь будет лицевой счет или дата" );
-               Button b2=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/?templ=2", null);    
+               Button b2=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/?templ=2", null);    
                e2.addButton(b2);
                m.addElement(e2);
                Element e3=new Element("Третий шаблон","https://fbookbot.herokuapp.com/third.png", "Здесь будет лицевой счет или дата" );
-               Button b3=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/?templ=3", "template");    
+               Button b3=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/?templ=3", "template");    
                e3.addButton(b3);
                m.addElement(e3);
             

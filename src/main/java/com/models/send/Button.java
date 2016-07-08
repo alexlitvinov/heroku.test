@@ -7,7 +7,7 @@ public class Button {
         @SerializedName("postback")
         Postback,
         @SerializedName("web_url")
-        web_url
+        account_link
     }
     private  Type type;
     private  String title;
@@ -18,11 +18,11 @@ public class Button {
         this.type = type;
         this.title = title;
         this.url = url;
-        this.payload = type==Type.web_url ? "" : payload;
+        this.payload = type==Type.account_link ? "" : payload;
     }
 
     public static Button Url(String title, String url){
-        return new Button(Type.web_url, title, url, null);
+        return new Button(Type.account_link, title, url, null);
     }
 
     public static Button Postback(String title, String action){
