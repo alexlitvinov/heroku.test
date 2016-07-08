@@ -15,7 +15,7 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
-import gui.ava.html.image.generator.HtmlImageGenerator;
+
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
