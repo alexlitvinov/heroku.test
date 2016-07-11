@@ -252,7 +252,7 @@ public class TestController {
      */
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(/*@RequestBody*/ String requestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String greeting(@RequestBody String requestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         System.out.println("requestBody: " + requestBody);
         
