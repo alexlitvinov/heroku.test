@@ -293,7 +293,7 @@ public class TestController {
             User u=this.users.get(sender);
             //запрашиваем телефон ,помечаем что юзер ждет телефона
             if (u.phone==null && u.st==0){
-                Message m=Message.Text("*Введите ваш телефон* <img src='https://fbookbot.herokuapp.com/third.png'/>");
+                Message m=Message.Text("*Введите ваш телефон/>");
                 this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m)));
                 u.st=1;                
                 this.users.put(sender, u);
@@ -333,15 +333,15 @@ public class TestController {
             
                Message m=Message.Generic();
                Element e=new Element("Первый шаблон","https://fbookbot.herokuapp.com/first.png", "Здесь будет лицевой счет или дата" );
-               Button b=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=1", null);    
+               Button b=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=1", null);    
                e.addButton(b);
                m.addElement(e);
                Element e2=new Element("Второй шаблон","https://fbookbot.herokuapp.com/second.png", "Здесь будет лицевой счет или дата" );
-               Button b2=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=2", null);    
+               Button b2=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=2", null);    
                e2.addButton(b2);
                m.addElement(e2);
                Element e3=new Element("Третий шаблон","https://fbookbot.herokuapp.com/third.png", "Здесь будет лицевой счет или дата" );
-               Button b3=new Button(Type.account_link, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=3", "template");    
+               Button b3=new Button(Type.web_url, "Оплатить", "https://fbookbot.herokuapp.com/test2.html?templ=3", "template");    
                e3.addButton(b3);
                m.addElement(e3);
             
