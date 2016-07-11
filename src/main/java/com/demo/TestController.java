@@ -252,12 +252,12 @@ public class TestController {
      */
     @RequestMapping("/webhook")
     @ResponseBody
-    public String greeting(@RequestBody String requestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public String greeting(/*@RequestBody*/ String requestBody, HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         System.out.println("requestBody: " + requestBody);
-
+        
         //авторизация
-        if (req.getParameter("hub.verify_token") != null && req.getParameter("hub.verify_token").equals(PAGE_TOKEN)) {
+        if (req.getParameter("hub.verify_token") != null ) {
             return req.getParameter("hub.challenge");
         } else if (req.getParameter("hub.verify_token") != null) {
             return "Error, wrong validation token";
