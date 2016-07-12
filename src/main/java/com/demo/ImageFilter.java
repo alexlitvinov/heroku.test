@@ -5,11 +5,10 @@
  */
 package com.demo;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,16 +23,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ImageFilter {
 
     @RequestMapping("img/{name}.{ext}")
-    public void getPicture(HttpServletRequest req, HttpServletResponse res) throws Exception{
-        try{
-        URL imageURL = new URL("https://fbookbot.herokuapp.com/long.png");
-        BufferedImage originalImage = ImageIO.read(imageURL);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(originalImage, "jpg", baos);
-        
-        res.setContentType("image/png");
-        res.getOutputStream().write(baos.toByteArray());
-        }catch(Exception e){
+    public void getPicture(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        try {
+            URL imageURL = new URL("http://localhost:8080/long.png");
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InputStream is = null;
+            try {
+                is = imageURL.openStream();
+                byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
+                int n;
+
+                while ((n = is.read(byteChunk)) > 0) {
+                    baos.write(byteChunk, 0, n);
+                }
+            } catch (IOException e) {                
+                e.printStackTrace();
+                // Perform any other exception handling that's appropriate.
+            } finally {
+                if (is != null) {
+                    is.close();
+                }
+            }
+
+            res.setContentType("image/png");
+            res.getOutputStream().write(baos.toByteArray());
+        } catch (Exception e) {
             System.out.println("222222222!!!!!");
             e.printStackTrace();
         }
