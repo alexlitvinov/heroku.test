@@ -11,7 +11,7 @@ import com.models.send.Message;
  public  class MessageWrapper {
         private  Recipient recipient;
         private  Message message;
-
+        public String filedata;
         public Recipient getRecipient() {
             return recipient;
         }

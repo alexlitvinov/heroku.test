@@ -4,7 +4,7 @@ public class Message {
 
     final private Attachment attachment;
     final private String text;
-    public String filedata;
+
 
     public Message(Attachment attachment, String text) {
         this.attachment = attachment;
