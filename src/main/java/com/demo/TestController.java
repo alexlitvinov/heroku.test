@@ -15,6 +15,10 @@ import com.models.send.Message;
 import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -25,12 +29,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +44,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+
 
 @Controller
 public class TestController {
@@ -103,8 +111,51 @@ public class TestController {
    RestTemplate restTemplate = new RestTemplate();
    {
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        restTemplate.setErrorHandler(new ResponseErrorHandler(){
+
+            @Override
+            public boolean hasError(ClientHttpResponse chr) throws IOException {
+                return chr.getRawStatusCode()!=200;
+            }
+
+            @Override
+            public void handleError(ClientHttpResponse chr) throws IOException {
+                String theString = getStringFromInputStream(chr.getBody());
+                System.out.println("ERROR BODY "+theString);
+            }
+         
+        });
    }
         
+   // convert InputStream to String
+	private static String getStringFromInputStream(InputStream is) {
+
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+
+		String line;
+		try {
+
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
+	}
     private void doPost(String url, String messageStr) {
         
         System.out.println("try to send to " + url);
