@@ -25,7 +25,7 @@ public class ImageFilter {
     @RequestMapping("img/{name}.{ext}")
     public void getPicture(HttpServletRequest req, HttpServletResponse res) throws Exception {
         try {
-            URL imageURL = new URL("http://localhost:8080/long.png");
+            URL imageURL = new URL("https://fbookbot.herokuapp.com/long.png");
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream is = null;
