@@ -47,7 +47,8 @@ public class ImageFilter {
                 }
             }
 
-            res.setContentType("image/png");
+            //res.setContentType("image/png");
+            res.setHeader("Content-Type", "image/png");
             res.getOutputStream().write(baos.toByteArray());
         } catch (Exception e) {
             System.out.println("222222222!!!!!");
