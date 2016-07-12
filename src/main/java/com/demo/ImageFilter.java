@@ -25,6 +25,7 @@ public class ImageFilter {
 
     @RequestMapping("img/{name}.{ext}")
     public void getPicture(HttpServletRequest req, HttpServletResponse res) throws Exception{
+        try{
         URL imageURL = new URL("https://fbookbot.herokuapp.com/long.png");
         BufferedImage originalImage = ImageIO.read(imageURL);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -32,5 +33,9 @@ public class ImageFilter {
         
         res.setContentType("image/png");
         res.getOutputStream().write(baos.toByteArray());
+        }catch(Exception e){
+            System.out.println("222222222!!!!!");
+            e.printStackTrace();
+        }
     }
 }
