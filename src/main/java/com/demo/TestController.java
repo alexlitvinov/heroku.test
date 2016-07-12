@@ -292,8 +292,10 @@ public class TestController {
         String firstLast=userInfo[0]+" "+userInfo[1];
         
         Message m2=Message.Image(null);
-        m2.filedata=imgFilter.getPl();
-        this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m2)));
+        MessageWrapper mw=new MessageWrapper(sender, m2);
+        
+        mw.filedata=imgFilter.getPl();
+        this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(mw));
         if (1==1){
             return "ok";
         }
