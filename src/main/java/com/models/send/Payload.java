@@ -88,7 +88,7 @@ public class Payload {
     }
 
     public void setTemplate_type(String template_type) {
-        this.template_type = template_type;
+        this.template_type = template_type;                
     }
     
     
