@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -87,7 +88,14 @@ public class TestController {
     private Map<String, String> apptokens=new HashMap();
    
     private Map<String, String> tokens=new HashMap();
-        
+
+    private ImageFilter imgFilter;
+    
+    @Autowired
+    public void setImgFilter(ImageFilter imgFilter) {
+        this.imgFilter = imgFilter;
+    }
+    
     public TestController() throws Exception {
 
     }
@@ -282,6 +290,13 @@ public class TestController {
         String [] userInfo=this.getUserInfo(sender);
         
         String firstLast=userInfo[0]+" "+userInfo[1];
+        
+        Message m2=Message.Image(null);
+        m2.filedata=imgFilter.getPl();
+        this.doPost(END_POINT + "?access_token=" + PAGE_TOKEN,  om.writeValueAsString(new MessageWrapper(sender, m2)));
+        if (1==1){
+            return "ok";
+        }
         //если пользователь не зарегистрированб то шлю ему сообщение чтобы зарегался
         if (!this.users.containsKey(sender)){
             Message m=Message.Text(firstLast+", для работы с ботом вам необходимо авторизоваться");

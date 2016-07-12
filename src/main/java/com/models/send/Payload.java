@@ -12,7 +12,7 @@ public class Payload {
      private String url;
      private List<Element> elements;
      private List<Button> buttons;
-
+     
     private Payload(String type, String text, String url, List<Element> elements, List<Button> buttons){
         this.template_type = type;
         this.text = text;
