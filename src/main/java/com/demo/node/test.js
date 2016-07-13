@@ -14,6 +14,12 @@ var jqueryd = require('jquery-deferred');
 
 var Spooky = require('spooky');
 
+var phInstance ;
+
+phantom.create().then(function (instance) {
+                phInstance = instance;                
+});
+
 //sample of page
 app.get('/main', function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
@@ -28,7 +34,6 @@ app.get('/main', function (req, res) {
 app.get("/getbase64", function (req, res) {
 
     var sitepage = null;
-    var phInstance = null;    
 
     function waitFor(testFx, onReady, timeOutMillis) {
         var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3000, 
@@ -49,14 +54,9 @@ app.get("/getbase64", function (req, res) {
                         }
                     }
                 }, 250);
-    }
-    ;
+    };
 
-    phantom.create()
-            .then(function (instance) {
-                phInstance = instance;
-                return instance.createPage();
-            })
+    phInstance.createPage()
             .then(function (page) {
                 sitepage = page;
                 return page.open('http://localhost:3000/template.html');
@@ -78,7 +78,7 @@ app.get("/getbase64", function (req, res) {
                         return text;
                     }).then(function (text) {
                         sitepage.close();
-                        phInstance.exit();
+                        //phInstance.exit();
                         res.writeHead(200, {'Content-Type': 'text/plain'});
                         res.end(text);
                     });
