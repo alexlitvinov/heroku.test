@@ -16,11 +16,9 @@ import com.models.webhook.AccountLinking;
 import com.models.webhook.Entry;
 import com.models.webhook.ReceivedMessage;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -178,7 +176,8 @@ public class TestController {
 
     }
 
-    private String doGet(String url) {
+    public  static String doGet(String url) throws Exception{
+        HttpClientManagerImpl httpImpl = new HttpClientManagerImpl();
         HttpGet p = null;
         try {
             System.out.println("try to send to " + url);
@@ -419,7 +418,6 @@ public class TestController {
 
         return "ok";
     }
-
 
 
 }

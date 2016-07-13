@@ -1,68 +1,92 @@
-var dispatcher = require('httpdispatcher');
-var http = require('http');
-var log4js = require('log4js');
-var logger = log4js.getLogger();
+/**
+ * 
+ * @type type
+ */
 var phantom = require('phantom');
-var $ = require("jquery");
+
+var jq = require("jquery");
 
 var express = require('express');
+
 var app = express();
 
-app.get('/page1', function (req, res) {
-    console.log('222222222222222222');
+var jqueryd = require('jquery-deferred');
+
+var Spooky = require('spooky');
+
+//sample of page
+app.get('/main', function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end('<html>' +
             '<body>' +
-            '<font color="green"><h3>HELLO HTML</h3></font>' +
+            '<font color="green"><h3>Service for making png image from html DOM</h3></font>' +
             '</body>' +
             '</html>');
 });
 
-
+//getting BASE64 encoded image
 app.get("/getbase64", function (req, res) {
-    console.log('2rrrrrr');
 
+    var sitepage = null;
+    var phInstance = null;    
 
-    phantom.create().then(function (ph) {
-        ph.createPage().then(function (page) {
-            page.open('http://localhost:3000/page1').then(function (status) {
-                console.log(status);
+    function waitFor(testFx, onReady, timeOutMillis) {
+        var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3000, 
+                start = new Date().getTime(),
+                condition = false,
+                interval = setInterval(function () {
+                    if ((new Date().getTime() - start < maxtimeOutMillis) && !condition) {                        
+                        condition = (typeof (testFx) === "string" ? eval(testFx) : testFx());
+                    } else {
+                        if (!condition) {
+                        
+                            console.log("'waitFor()' timeout");
+                            phantom.exit(1);
+                        } else {                        
+                            console.log("'waitFor()' finished in " + (new Date().getTime() - start) + "ms.");
+                            typeof (onReady) === "string" ? eval(onReady) : onReady(); 
+                            clearInterval(interval); 
+                        }
+                    }
+                }, 250);
+    }
+    ;
 
-                page.includeJs('http://localhost:3000/html2canvas.js', function () {
-                    console.log('succesfully img1111 ');
-
-
-                    page.evaluate(function () {
-                        /*html2canvas(document.body, {
-                         onrendered: function (canvas) {
-                         console.log('succesfully img');
-                         
-                         }
-                         });*/
-                        console.log(document.getElementsByTagName('html')[0].innerHTML);
-                        //page.close();
-
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end('<html>' +
-                                '<body>' +
-                                '<font color="green"><h3>ALL IS OK</h3></font>' +
-                                '</body>' +
-                                '</html>');
-
-                    });
-
+    phantom.create()
+            .then(function (instance) {
+                phInstance = instance;
+                return instance.createPage();
+            })
+            .then(function (page) {
+                sitepage = page;
+                return page.open('http://localhost:3000/template.html');
+            })
+            .then(function (status) {
+                
+                sitepage.property('onConsoleMessage', function (msg) {
+                    console.log('get MESSAGE ' + msg);
                 });
-                ph.exit();
 
+                waitFor(function () {
+                    return sitepage.evaluate(function () {
+                        return $("#canvacontent").is(":visible");
+                    });
+                }, function () {
+                    var data = sitepage.evaluate(function () {
+                        var text = $("#canvacontent").html();
+
+                        return text;
+                    }).then(function (text) {
+                        sitepage.close();
+                        phInstance.exit();
+                        res.writeHead(200, {'Content-Type': 'text/plain'});
+                        res.end(text);
+                    });
+                });
             });
-        });
-
-    });
-
 });
-app.use(express.static(__dirname + '/../../../../resources/static'));
 
-//app.use(__dirname +express.static('static'));
+app.use(express.static(__dirname + '/../../../../resources/static'));
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
