@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="subicons.css" />
+        <style>
+            .divafter{
+                background-image: url("http://localhost:8080/basket_small.png");
+                background-repeat: no-repeat;
+                content: "";
+                height: 30px;
+                position: absolute;
+                right: 1400px;
+                top: 6px;
+                width: 39px;
+            }
+        </style>
+    </head>
+    <body>
+          <div style="height:192px; width:365px; font-family:Arial,'Lucida Grande',​sans-serif; font-size:15px; line-height:	19.8px" class="sub-icon__default sub-icon__i12">            
+            <img src="http://localhost:8080/basket_small.png" style="height: 30px; position: absolute; right: 1400px; top: 6px; width: 39px;"/>
+            <h3 style="font-size:	18px; font-weight:700; color:	#333333; width:	242.767px; margin-top:	11px; margin-right:	0px; margin-bottom:	10px; margin-left:	0px;" th:text="${tn}"></h3>
+            <div class="template-body">
+                <div style="margin-bottom: 5px;">
+                    <div th:text="${cn}"></div>
+                </div>
+            </div>
+            <div style="margin-top: 30px;">Баланс: <strong style="color: red;" th:text="${balance}"></strong><span th:text="${date}"></span></div>
+            <div style="margin-top: 5px;">Лицевой счет: <strong th:text="${account}"></strong></div>
+            <div style="margin-top: 5px;">Последний платеж: <strong th:text="${lastPay}"></strong></div>
+        </div>
+    </body>
+</html>

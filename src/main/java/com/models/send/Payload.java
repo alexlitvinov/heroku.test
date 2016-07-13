@@ -1,19 +1,17 @@
 package com.models.send;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Payload {
 
-     private String template_type;
-     private String text;
-     private String url;
-     private List<Element> elements;
-     private List<Button> buttons;
-     
-    private Payload(String type, String text, String url, List<Element> elements, List<Button> buttons){
+    private String template_type;
+    private String text;
+    private String url;
+    private List<Element> elements;
+    private List<Button> buttons;
+
+    private Payload(String type, String text, String url, List<Element> elements, List<Button> buttons) {
         this.template_type = type;
         this.text = text;
         this.url = url;
@@ -21,11 +19,11 @@ public class Payload {
         this.buttons = buttons;
     }
 
-    public static Payload Button(String text){
+    public static Payload Button(String text) {
         return new Payload("button", text, null, null, new ArrayList<>());
     }
 
-    public static Payload Generic(){
+    public static Payload Generic() {
         return new Payload("generic", null, null, new ArrayList<>(), null);
     }
 
@@ -37,7 +35,7 @@ public class Payload {
     public boolean addButton(Button button) {
         if (buttons != null) {
             return buttons.add(button);
-        }else {
+        } else {
             return false;
         }
     }
@@ -45,12 +43,11 @@ public class Payload {
     public boolean addElement(Element element) {
         if (elements != null) {
             return elements.add(element);
-        }else {
+        } else {
             return false;
         }
     }
 
-   
     public String getText() {
         return text;
     }
@@ -88,8 +85,8 @@ public class Payload {
     }
 
     public void setTemplate_type(String template_type) {
-        this.template_type = template_type;                
+        this.template_type = template_type;
     }
-    
-    
+
+
 }

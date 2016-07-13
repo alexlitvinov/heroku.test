@@ -5,13 +5,13 @@
  */
 package com.demo;
 
+import gui.ava.html.Html2Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.binary.Base64;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,64 +25,26 @@ public class ImageFilter {
 
     @RequestMapping("img/{name}.{ext}")
     public void getPicture(HttpServletRequest req, HttpServletResponse res) throws Exception {
+        ByteArrayOutputStream baos =null;
+        System.out.println(req.getRequestURL());
         try {
-            URL imageURL = new URL("https://fbookbot.herokuapp.com/long.png");
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream is = null;
-            try {
-                is = imageURL.openStream();
-                byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
-                int n;
-
-                while ((n = is.read(byteChunk)) > 0) {
-                    baos.write(byteChunk, 0, n);
-                }
-            } catch (IOException e) {                
-                e.printStackTrace();
-                // Perform any other exception handling that's appropriate.
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
-            }
-
-            //res.setContentType("image/png");
+            System.out.println(req.getContextPath());
+            Html2Image h2i = Html2Image.fromURL(new URL("http://localhost:8080/template?subId=1"));            
+            h2i.getImageRenderer().setWidth(365);
+            BufferedImage originalImage = h2i.getImageRenderer().getBufferedImage();
+            baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "png", baos);
+            baos.flush();            
             res.setHeader("Content-Type", "image/png");
             res.getOutputStream().write(baos.toByteArray());
         } catch (Exception e) {
             System.out.println("222222222!!!!!");
             e.printStackTrace();
-        }
-    }
-    
-    public String getPl(){
-        try {
-            URL imageURL = new URL("https://fbookbot.herokuapp.com/long.png");
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream is = null;
-            try {
-                is = imageURL.openStream();
-                byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
-                int n;
-
-                while ((n = is.read(byteChunk)) > 0) {
-                    baos.write(byteChunk, 0, n);
-                }
-            } catch (IOException e) {                
-                e.printStackTrace();
-                // Perform any other exception handling that's appropriate.
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
+        } finally{
+            if (baos!=null){
+                baos.close();
             }
-            return Base64.encodeBase64String(baos.toByteArray());
-        } catch (Exception e) {
-            System.out.println("222222222!!!!!");
-            e.printStackTrace();
         }
-        return null;
+
     }
 }
