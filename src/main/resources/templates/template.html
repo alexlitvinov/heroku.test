@@ -1,33 +1,48 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <meta charset="utf-8"/>
-        <link rel="stylesheet" href="subicons.css" />
+        <link rel="stylesheet" href="/bootstrap.css" />
+        <link rel="stylesheet" href="/app.css" />
         <style>
-            .divafter{
-                background-image: url("http://localhost:8080/basket_small.png");
+            .template-single::after {
+                background-image: url("/sub-icons.png") !important;
                 background-repeat: no-repeat;
                 content: "";
                 height: 30px;
                 position: absolute;
-                right: 1400px;
-                top: 6px;
+                right: 5px;
+                top: 12px;
                 width: 39px;
+            }
+            body { 
+                -webkit-print-color-adjust: exact;                
             }
         </style>
     </head>
-    <body>
-          <div style="height:192px; width:365px; font-family:Arial,'Lucida Grande',​sans-serif; font-size:15px; line-height:	19.8px" class="sub-icon__default sub-icon__i12">            
-            <img src="http://localhost:8080/basket_small.png" style="height: 30px; position: absolute; right: 1400px; top: 6px; width: 39px;"/>
-            <h3 style="font-size:	18px; font-weight:700; color:	#333333; width:	242.767px; margin-top:	11px; margin-right:	0px; margin-bottom:	10px; margin-left:	0px;" th:text="${tn}"></h3>
-            <div class="template-body">
-                <div style="margin-bottom: 5px;">
-                    <div th:text="${cn}"></div>
+    <body style="background-color: white;" class="mypayments">
+        
+                <div class="row" style="margin-left: 20px; width:400px;">
+                    <div class="templates-container col-sm-4 col-xs-12 template template-single sub-icon__default sub-icon__i{{subicon}}" style="width:100%;">
+                        <h3 class="template-title ng-binding" style="font-weight: bold;">{{tname}}</h3>
+                        <div class="template-body">
+                            <div style="margin-bottom: 5px;">
+                                <div class="org-name org-name-lines org-name-lines--4 ng-binding org-name-lines--3">{{cname}}</div>
+                            </div>
+                        </div>
+                        <div style="padding-top:50px;">
+                            <div style="padding-bottom: 5px;">
+                                <font style="font-size: 13px;">Баланс:&nbsp;</font><strong class="template-balance inline ng-binding {{class}}">{{balance}} грн</strong><font style="font-size:13px; color: #b4b4b4">&nbsp;({{balanceDate}})</font>                                
+                            </div>
+                            <div style="padding-bottom: 5px;">
+                                <font style="font-size: 13px;">Лицевой счет:&nbsp;</font><strong class="template-acc inline ng-binding">{{acc}}</strong>
+                            </div>
+                            <div style="padding-bottom: 5px;"><font style="font-size: 13px;">Последний платеж:&nbsp;</font><strong class="template-date-last-pay inline ng-binding">{{lastPay}}</strong><div>                            
+                        </div>            
+                    </div>
                 </div>
             </div>
-            <div style="margin-top: 30px;">Баланс: <strong style="color: red;" th:text="${balance}"></strong><span th:text="${date}"></span></div>
-            <div style="margin-top: 5px;">Лицевой счет: <strong th:text="${account}"></strong></div>
-            <div style="margin-top: 5px;">Последний платеж: <strong th:text="${lastPay}"></strong></div>
         </div>
+        
     </body>
 </html>
