@@ -170,7 +170,7 @@ public class FakeAuthorizator {
 
     @RequestMapping("register")
     public String checkReg(String account_linking_token, Model model) {
-        model.addAttribute("s", account_linking_token);
+        model.addAttribute("token", account_linking_token);
         return "test";
     }
 
