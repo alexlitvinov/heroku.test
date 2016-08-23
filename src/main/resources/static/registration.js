@@ -52,7 +52,7 @@ function checkOtp(){
     showloader();
     $.ajax({
         dataType: "json",
-        url: 'otpCheck?otp='+$('#otpInput').val(),
+        url: 'otpCheck?otp='+$('#otpInput').val()+'&token='+$('#token').val(),
         data: {},
         success: function(data){
             hideloader();

@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.ResponseErrorHandler;
@@ -168,7 +169,8 @@ public class FakeAuthorizator {
     }
 
     @RequestMapping("register")
-    public String checkReg(String fbtoken) {
+    public String checkReg(String account_linking_token, Model model) {
+        model.addAttribute("s", account_linking_token);
         return "test";
     }
 
